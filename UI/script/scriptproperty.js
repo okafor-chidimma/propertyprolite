@@ -67,5 +67,13 @@ function initMap() {
     map.setCenter(currCenter);
     };
 }
-        
+
+const goBack = ()=>{
+    window.location.replace('../UI/properties.html');
+}
+
+
+let buttonElement  = document.querySelector("#button-back");
+buttonElement.addEventListener("click",goBack);
+
 

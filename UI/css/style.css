@@ -230,10 +230,7 @@ background-color: transparent;
 .text .button-property{
     margin-right: 20px;
 }
-/* review section  
-#review{
-   border-bottom: 2px solid greenyellow; 
-} */
+
 .review{
     padding: 20px;
 }
@@ -262,15 +259,12 @@ div.box h3{
     grid-template-columns: repeat(auto-fill,minmax(500px,1fr));
     
 }
-/* .section-grid-container{
-    display: grid;
-    grid-gap: 5px;
-} */
-  .border{
-    padding:20px;
-    margin: 10px;
-    border-right: 1px solid black;
-    border-radius: 10px;
+
+.border{
+  padding:20px;
+  margin: 10px;
+  border-right: 1px solid black;
+  border-radius: 10px;
     
 } 
  .border img{
@@ -284,10 +278,6 @@ div.box h3{
     transform: scale(1.1);
     cursor: pointer;
 }
-/* .section-grid-container p{
-   display: flex;
-   justify-content: flex-end;
-}   */
 
 .button-property{
    
@@ -352,8 +342,6 @@ footer{
 }
 .button:hover{
     cursor: pointer;
-    /* background-color: #fff; */
-    /* color: #09080a; */
     background-image: linear-gradient(to right top, #116466, #1c495b, #272e3f, #1e1920, #000000);
     
     
@@ -374,7 +362,6 @@ footer{
 .flex-end{
     display: flex;
     justify-content: flex-end;
-    /* padding: 10px; */
     
 }
 .flex-end a{
@@ -537,7 +524,6 @@ div .button{
     } 
      
     .flex-end{
-        /* padding-right: 10px; */
         justify-content: center;
     }
     #sign-in .legend{
@@ -569,12 +555,7 @@ div .button{
     }
     .advert_pix{
         left: 65vw;
-        /* width: 80px; */
+        
     }
-   /* #myMap{
-       height:400px;
-       width:100%;
-   }
-   */
   
 }
