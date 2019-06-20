@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Affordable houses for sale or rent">
+    <meta name="keywords" content="flats for rent or sale, duplex for rent or sale, storey-buildings for rent or sale">
+    <meta name="author" content="Okafor Chidimma">
+    <!--title should display the name of the user  -->
+    <title>Property-pro Lite | New Advert Page</title>
+    <!-- Favicon-->
+     <link rel="icon" href="./images/companylogo.ico">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <nav>
+        <div class="container">
+            
+                <div class="nav-div">
+                   <h1>
+                       Property-Pro
+                       <span>
+                           Lite 
+                    </span> 
+                        
+                    </h1> 
+                   <p>...brand you can trust</p>
+                </div>  
+            
+                <ul>
+                    <li>
+                        <a href="./index.html" >Home &nbsp;</a>
+                    </li>
+                    <li>
+                        <a href="./properties.html"> Properties &nbsp;</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)" > My Account 
+                            <span class="drop-down-arrow">&#11167;</span>
+                        </a>
+                        <div class="dropdown-content">
+                            <!-- <a href="./edit-profile.html">Edit Profile</a>
+                            <a href="./reset-password.html">Change Password</a> -->
+                            <a href="./myadvert.html">My Adverts</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="./signout.html" >&nbsp; Sign Out</a>
+                    </li>
+                </ul>
+            
+        </div>
+        
+        
+    </nav>  
+    
+    
+    <!--form for placing advert  -->
+    <section id="register">
+        <form action="" method="get">
+           
+                <legend class="legend">Edit Your Advert With Us</legend>
+                    <div class="grid-container two-grid-column margin grid-gap">  
+                        <div>
+                            <label class="label" for="">Country</label>
+                            <select name="country" id="country" required class="input select-register full-width">
+                                <option value="" disabled selected>::Select Country::</option>
+                                <option value="1">Nigeria</option>
+                                <option value="1">USA</option>
+                            </select>
+                        </div>
+                        <div>
+                             <label class="label" for="">State</label>
+                            <select name="state" id="state" required class="input select-register full-width">
+                                <option value="" disabled selected>::Select Country::</option>
+                                <option value="1">Nigeria</option>
+                                <option value="1">USA</option>
+                            </select>
+                        </div>
+                        
+                       
+                    </div>
+                    <div class="grid-container two-grid-column margin grid-gap">
+                        <div>
+                            <label class="label" for="">City</label>
+                            <select name="city" id="city" required class="input select-register full-width">
+                                <option value="" disabled selected>::Select City::</option>
+                                <option value="1">Abuja</option>
+                                <option value="1">Kuje</option>
+                            </select>  
+                        </div>
+                        <div>
+                            <label class="label" for="">Address</label>
+                            <input class="input full-width" type="text" maxlength="40" required> 
+                        </div>
+                        
+                        
+                    </div>
+                        
+                        <!-- <hr> -->
+                    <div class="grid-container two-grid-column margin grid-gap">
+                        <div>
+                            <label class="label" for="">Type</label>
+                            <select name="type" id="type" required class="input select-register full-width">
+                                <option value="" disabled selected>::Select Type::</option>
+                                <option value="flat">Flat</option>
+                                <option value="mini-flat">Mini Flat</option>
+                                <option value="duplex">Duplex</option>
+                                <option value="self-contained">Self Contained</option>
+                                <option value="bungalow">Bungalow</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="label" for="">Bedrooms</label>                
+                            <select name="room_no" id="room_no" required class="input select-register full-width">
+                                <option value="" disabled selected>::Select No of Rooms ::</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="grid-container two-grid-column margin grid-gap">
+                        <div>
+                            <label class="label" for="">Price</label>
+                            <input class="input full-width" type="text" required name="price" value="">
+                        </div>
+                        <div>
+                            <label for="" class="label" >Advert Description</label>
+                            <textarea class="form-input full-width" name="adv_desc" id="adv_desc" rows="5" placeholder="Include condition, features and reason for selling or renting"></textarea>
+                        </div>
+                        
+                        <!-- <hr> -->
+                    </div>
+                    <div class="grid-container two-grid-column margin grid-gap">
+                        <div>
+                            <label class="label" for="">Purpose of Advert</label>
+                            <select name="adv_purp" id="adv_purp" required class="input select-register full-width">
+                                <option value="" disabled selected>::Select Type::</option>
+                                <option value="rent">Rent</option>
+                                <option value="sale">Sale</option>
+                            </select>
+                           
+                        </div>
+                        <div>
+                             <label class="hide" id="duration-label" for="">Duration</label>
+                            <input class="hide" id="duration-inp" type="text" required name="price" value="">
+                        </div>
+                    </div>
+                    <div class="grid-container two-grid-column margin grid-gap">
+                        <div>
+                            <div class="mt">
+                                <div class="input-container">
+                                    <input type="file" id="real-input-1" class="hide real-input">
+                                    <button class="button-property" type="button">
+                                    Browse Files
+                                    </button>
+                                    <span class="file-info">Upload a file</span>
+                                
+                                </div>
+                                <img src="./images/slider2.jpg" alt="picture1" class="advert_pix"> 
+                            </div> 
+                        </div>
+                        <div>
+                            <div class="mt">
+                                <div class="input-container">
+                                    <input type="file" id="real-input-2" class="hide real-input">
+                                    <button class="button-property" type="button">
+                                    Browse Files
+                                    </button>
+                                    <span class="file-info">Upload a file</span>
+                                
+                                </div>
+                                <img src="./images/slider1.jpg" alt="picture1" class="advert_pix"> 
+                            </div> 
+                        </div>
+                        
+                    </div>
+                    <div class="grid-container two-grid-column margin grid-gap">
+                        <div>
+                            <div class="mt">
+                                <div class="input-container">
+                                    <input type="file" id="real-input-3" class="hide real-input">
+                                    <button class="button-property" type="button">
+                                    Browse Files
+                                    </button>
+                                    <span class="file-info">Upload a file</span>
+                                
+                                </div>
+                                <img src="./images/slider3.jpg" alt="picture1" class="advert_pix"> 
+                            </div> 
+                        </div>
+                        
+                    </div>
+                    <div class="link-more">
+                         <input type="submit" class="button-property margin" value="Update Advert"> 
+                        
+                    </div>
+        </form>
+       
+    </section>
+    
+    <footer>
+        <p>Property-pro Lite Company, Copyright &copy; 2019</p>
+    </footer> 
+    <script src="./script/createadscript.js"></script>
+</body>
+</html>
