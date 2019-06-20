@@ -1,0 +1,580 @@
+html,body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+    font-size: 15px;
+    background-color: #f4f4f4;
+    overflow-x: hidden;
+}
+hr{
+    border-width: 2px;
+}
+/*Global style  */
+.cursor{
+    cursor: pointer;
+}
+.hide{
+    display: none;
+}
+.bold{
+    font-weight: bold;
+}
+.bolder{
+    font-weight: bolder;
+}
+.no-dot{
+    list-style: none;
+     
+    
+}
+.no-underline{
+    text-decoration: none;
+    color: #000;
+}
+
+.p0{
+    padding: 0;
+}
+.m0{
+    margin: 0px;
+}
+.padding{
+    padding: 0 20px;
+}
+.line-height{
+    line-height: 2.0;
+}
+.align-center{
+    text-align: center;
+}
+.margin{
+    margin: 10px;
+}
+.mt{
+    margin-top: 10px;
+}
+.flexer{
+    display: flex;
+    justify-content: flex-end;
+}
+.flex{
+    display: flex;
+    flex-direction: column;
+}
+
+.form-input{
+    margin: auto;
+    width: 70vw;
+    border-radius: 5px;
+    padding: 7px;
+}
+.select{
+    height: 5vh;
+}
+.space-between{
+    display: flex;
+    justify-content: space-between;
+}
+.grid-container{
+    display: grid;
+    grid-gap: 5px;
+}
+.full-width{
+    width: -webkit-fill-available;
+}
+.grid-gap{
+     grid-gap: 35px;
+    
+}
+.red-text{
+    color: #FF0000;
+}
+/*nav  */
+nav{
+    background-image: linear-gradient(to right top, #116466, #1c495b, #272e3f, #1e1920, #000000);
+    border-bottom: 3px solid #fff;
+    color: #547495;
+    /* position: fixed;
+    width: 100vw;
+    top: 0; */
+}
+
+.container{
+    display: flex;
+    list-style: none;
+    margin: 0;
+    
+    justify-content: space-around;
+}
+.container div h1{
+    color:#116466;
+}
+.container .nav-div h1 span,.container .nav-div p{
+    color:#fff;
+}
+
+nav ul li{
+    margin-top:20px;
+    padding-right: 20px;
+    display: inline-block;
+}
+nav ul li a{
+    text-decoration: none;
+    color:#116466;
+  font-weight: bold;
+    
+}
+nav ul li a:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+nav ul li:first-child a{
+    color:#fff;
+}
+/*for the drop down  */
+nav li.dropdown {
+  display: inline-block;
+}
+
+nav .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  min-width: 100px;
+  border-radius: 5px;
+ 
+}
+
+nav .dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  font-weight: bold;
+}
+
+nav .dropdown-content a:hover {
+    background-color: #116466;
+    cursor: pointer;
+}
+
+nav .dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/*slider  */
+#slider{
+    height: 70vh;
+    position: relative;
+    margin: auto;
+}
+/*slide with img  */
+#slider .mySlides {
+    display: none;
+}
+/*img in the slides  */
+#slider .mySlides img {
+    vertical-align: middle;
+    height: 70vh;
+    width: 100%;
+     opacity: 0.7; 
+    
+}
+/*slider arrows  */
+/* Next & previous buttons */
+.prev, .next,.next-property,.prev-property {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover{
+  background-color: rgba(0,0,0,0.8);
+}
+/*for the text  */
+.text {
+background-color: transparent;
+  color: black;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+.link-more{
+    display: flex;
+    justify-content: center;
+}
+.text h1{
+    font-size:30px;
+}
+.text .button-property{
+    margin-right: 20px;
+}
+/* review section  
+#review{
+   border-bottom: 2px solid greenyellow; 
+} */
+.review{
+    padding: 20px;
+}
+div.box{
+    padding: 10px;
+}
+div.box div{
+   width: 40%;
+   height: 40%;
+   border-radius: 50%;
+   overflow: hidden;
+   margin: auto auto;
+}
+div.box div img{
+   width: 100%;
+   height: 100%;
+}
+div.box h3{
+  text-align: center;
+}
+/*section for house and advert  */
+.three-grid-column{
+    grid-template-columns: repeat(auto-fill,minmax(350px,1fr));
+}
+.two-grid-column{
+    grid-template-columns: repeat(auto-fill,minmax(500px,1fr));
+    
+}
+/* .section-grid-container{
+    display: grid;
+    grid-gap: 5px;
+} */
+  .border{
+    padding:20px;
+    margin: 10px;
+    /* border: 0.5px solid black; */
+    border-radius: 10px;
+    
+} 
+ .border img{
+     display: block;
+     border-radius: 10px;
+     margin: auto auto;
+    width: 40%;
+    transition: all 1s;
+}
+.border img:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
+/* .section-grid-container p{
+   display: flex;
+   justify-content: flex-end;
+}   */
+
+.button-property{
+   
+    background-color: transparent;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 7px;
+}
+.no-underline:hover{
+    color: #fff;
+}
+.button-property:hover{
+   cursor: pointer;
+   background-color: #000000;
+   color: #f4f4f4;
+   border: 1px solid #f4f4f4;
+   /*add background color and text color  */
+    
+}
+
+/*footer  */
+footer{
+    background-image: linear-gradient(to right top, #116466, #1c495b, #272e3f, #1e1920, #000000);
+    border-top: 1px solid #fff;
+    color: #116466;
+    text-align: center;
+    padding: 10px 0px;
+}
+/*for registeration  */
+.div{
+    display: grid;
+    width: 320px;
+    grid-template-columns: repeat(auto-fill,minmax(320px,1fr));
+    /* background-color: red; */
+    /* justify-content: center; */
+    margin: auto auto;
+}
+.label{
+    display: block;
+    margin: 10px 10px 0px 0px;
+    font-weight: bold;
+    font-size: 15px;
+}
+.input{
+    /* height: 30px; */
+    border-radius: 5px;
+    padding: 10px;
+    border:1px solid rgb(0,0,0,0.5);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+}
+.button{
+    margin: 10px 0 10px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px 20px 30px 20px;
+    font-weight: bold;
+    font-size: 15px;
+    color: #fff;
+    border:1px solid rgb(0,0,0,0.5);
+}
+.button:hover{
+    cursor: pointer;
+    /* background-color: #fff; */
+    /* color: #09080a; */
+    background-image: linear-gradient(to right top, #116466, #1c495b, #272e3f, #1e1920, #000000);
+    
+    
+}
+/*onclick of the input  */
+.click{
+    border-radius: 10px;
+    border: 1px;
+}
+/*fieldset  */
+
+.legend{
+    text-align: center;
+    font-weight: bold;
+    margin: 10px auto;
+    font-size: 25px
+}
+.flex-end{
+    display: flex;
+    justify-content: flex-end;
+    /* padding: 10px; */
+    
+}
+.flex-end a{
+    text-decoration: none;
+    color: #000000;
+    font-weight: bold;
+}
+.flex-end span{
+    margin-right: 10px; 
+}
+.select-register{
+    height: 45px;
+    font-size: 15px;
+}
+/*sign in  */
+#sign-in .legend{
+    margin: 45px auto;
+}
+#sign-in .form{
+    margin: auto;
+    padding: 20px 95px 95px 95px;
+}
+/*for properties.html  */
+#sort_property,#sort_property form {
+    display: flex;
+    justify-content: flex-end;
+}
+.property-select{
+    height: 35px;
+    margin: 10px;
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid #f5c899;
+}
+#sort_property label{
+    margin-top: 15px;
+    margin-left: 10px;
+    font-weight: bold;
+}
+#sort_property .button{
+    padding: 10px 10px 24px 10px;
+    margin-right: 25px;
+}
+/*for property.html  */
+.property-desc{
+    /* margin: 10px 10px 10px 10px; */
+    display: flex;
+}
+.rel-pos{position: relative}
+#fraud_div .property-button{
+    margin: 10px;
+    
+}
+.reason-input{
+    width: -webkit-fill-available;
+    margin: 10px;
+}
+.property-label{
+     margin: 10px auto;
+}
+/*account style  */
+div .button{
+    padding: 1px 6px;
+}
+.small-text{
+    width: 300px;
+}
+.input-container{
+    /* max-width: 250px; */
+    background-color: #EDEDED;
+    border: 1px solid #DFDFDF;
+    border-radius: 5px;
+}
+.browse-btn {
+  background: #03A595;
+  color: #fff;
+  min-height: 35px;
+  padding: 10px;
+  border: none;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.browse-btn:hover {
+  background: #4ec0b4;
+}
+.advert_pix{
+    position: relative;
+    top: -38px;
+    left: 60%;
+    width: 120px;
+    height: 80px;
+}
+#myMap{
+    width: 100%;
+    height: 535px;
+}
+/*for smaller screens  */
+@media only screen and (max-width:768px){
+    .container{
+         flex-direction: column; 
+        justify-content: center;
+    }
+    .container div{
+        text-align: center;
+    }
+    .container div h1{
+        font-size: 20px;
+    }
+    
+   
+    nav ul{
+        padding: 15px !important;
+         margin: 0px auto; 
+    }
+    nav ul li{ 
+        padding:0px;
+        margin: 0;
+    }
+    nav ul li a{
+        font-weight: normal;
+        
+    }
+    .drop-down-arrow {
+        display: none;
+    }
+    #slider{
+        height: 30vh;
+    } 
+    #slider .mySlides img {
+        vertical-align: middle;
+        height: 30vh;
+        width: 100%;  
+    }
+    .text h1{
+        font-size: 15px;
+    }
+    .prev, .next,.text,.next-property,{font-size: 11px}
+
+    .two-grid-column,.three-grid-column{
+        display: block;
+    } 
+     .border{
+         margin-top:0; 
+     }
+    
+    
+    .label{
+        font-weight: bold;
+        font-size: 15px;
+    }
+     .input{
+        height: 20px;
+        border-radius:5px;
+        padding: 10px;
+        font-family: Arial, Helvetica, sans-serif;
+    } 
+     .select-register{
+        height: 45px;
+        font-size: 15px;
+    } 
+     
+    .flex-end{
+        /* padding-right: 10px; */
+        justify-content: center;
+    }
+    #sign-in .legend{
+        margin: 25px auto;
+    }
+    #sign-in .form {
+        padding: 20px 0px 30px 0px;
+    }
+    /*properties.html  */
+    #sort_property{
+        flex-direction: column;
+    }
+    #sort_property form {
+        display: grid;
+        grid-template-columns: repeat(auto-fill,minmax(310px,1fr));
+    }   
+    #sort_property form div {
+        display: flex;
+        justify-content: flex-end;
+    }
+    /*property.html  */
+    .property-desc{
+        flex-direction: column;
+    }
+    .browse-btn {
+    
+        border-top-right-radius: 5px;
+        border-bottom-left-radius: 0;
+    }
+    .advert_pix{
+        left: 65vw;
+        /* width: 80px; */
+    }
+   /* #myMap{
+       height:400px;
+       width:100%;
+   }
+   */
+  
+}
