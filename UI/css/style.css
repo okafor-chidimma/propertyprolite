@@ -90,6 +90,9 @@ hr{
 .red-text{
     color: #FF0000;
 }
+.text-underline{
+  text-decoration: underline;
+}
 /*nav  */
 nav{
     background-image: linear-gradient(to right top, #116466, #1c495b, #272e3f, #1e1920, #000000);
