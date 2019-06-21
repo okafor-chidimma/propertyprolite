@@ -23,13 +23,26 @@ showSlides();
 const getPropertyPage = () =>{
     // console.log("hello");
     // remember to pass the id as you are declaring this
-    window.location.replace("./property.html");
+    window.location.replace("../UI/properties.html");
     
 }
-let buttons = document.querySelectorAll(".button-property");
+const getRegisterPage = () =>{
+    // console.log("hello");
+    // remember to pass the id as you are declaring this
+    window.location.replace("../UI/register.html");
+    
+}
+let buttonsView = document.querySelectorAll(".view");
 // console.log(buttons);
-buttons.forEach(button=>{
+buttonsView.forEach(button=>{
     // console.log(button);
     button.addEventListener("click",getPropertyPage);
+})
+
+let buttonsLinks = document.querySelectorAll(".link");
+// console.log(buttons);
+buttonsLinks.forEach(buttonLink=>{
+    // console.log(button);
+    buttonLink.addEventListener("click",getRegisterPage);
 })
 
