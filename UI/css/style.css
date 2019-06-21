@@ -93,6 +93,9 @@ hr{
 .text-underline{
   text-decoration: underline;
 }
+.auto-margin{
+  margin: auto;
+}
 /*nav  */
 nav{
     background-image: linear-gradient(to right top, #116466, #1c495b, #272e3f, #1e1920, #000000);
@@ -214,7 +217,7 @@ nav .dropdown:hover .dropdown-content {
 }
 /*for the text  */
 .text {
-background-color: transparent;
+  background-color: transparent;
   color: black;
   font-size: 15px;
   padding: 8px 12px;
@@ -498,8 +501,12 @@ div .button{
         height: 30vh;
         width: 100%;  
     }
+    .text{
+      bottom: 0px;
+    }
     .text h1{
         font-size: 15px;
+
     }
     .prev, .next,.text,.next-property,{font-size: 11px}
 
