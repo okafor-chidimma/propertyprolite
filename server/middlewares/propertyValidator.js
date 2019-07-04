@@ -86,6 +86,28 @@ const propertyValidator = {
       .withMessage('Advert Must contain only string')
       .trim(),
   ],
+  isAdvFraudulent: [
+    body('location')
+      .exists({ checkFalsy: true })
+      .withMessage('Your Location is required!')
+      .isString()
+      .withMessage('Must Be a String')
+      .trim(),
+    body('reason')
+      .exists({ checkFalsy: true })
+      .withMessage('Your Reason is required!')
+      .isIn(['pricing', 'wrongDoc', 'strangeDemands', 'illegalOwnership'])
+      .withMessage('Invalid Reason!')
+      .trim(),
+    body('fraud_desc')
+      .exists({ checkFalsy: true })
+      .withMessage('Explain your reason!')
+      .isString()
+      .withMessage('Must Be a String')
+      .isLength({ min: 10 })
+      .withMessage('Too short. give more details')
+      .trim(),
+  ],
 };
 
 export default propertyValidator;
