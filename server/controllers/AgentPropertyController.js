@@ -51,6 +51,45 @@ class AgentPropertyController {
       data: newProperty,
     });
   }
+
+  static async UpdateProperty(req, res) {
+    const token = req.headers['x-auth-token'];
+    const verifyTokenAnswer = verifyToken(res, token);
+    const userId = verifyTokenAnswer.id;
+    const id = parseInt(req.params.id, 10);
+    const found = allProperties.some((property) => {
+      return (property.id === id && property.owner === userId);
+    });
+    if (!found) {
+      return res.status(404).json({
+        status: 'error',
+        error: 'No such property exists',
+      });
+    }
+    const updateProperty = req.body;
+    const singleProperty = allProperties.find((property) => {
+      return (property.id === id && property.owner === userId);
+    });
+    const keysUpdate = Object.keys(updateProperty);
+    keysUpdate.forEach((key) => {
+      if (typeof updateProperty[key] === 'string') {
+        updateProperty[key] = updateProperty[key].trim();
+      }
+      if (updateProperty[key] !== "") {
+        singleProperty[key] = updateProperty[key];
+      } else {
+        return res.status(400).json({
+          status: 'error',
+          error: `${key} cannot be empty`,
+        });
+      }
+      return singleProperty;
+    });
+    return res.status(200).json({
+      status: 'success',
+      data: singleProperty,
+    });
+  }
 }
 
 export default AgentPropertyController;
