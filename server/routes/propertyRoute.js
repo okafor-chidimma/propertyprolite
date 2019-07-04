@@ -1,5 +1,6 @@
 import express from 'express';
 import AgentPropertyController from '../controllers/AgentPropertyController';
+import UserPropertyController from '../controllers/UserPropertyController';
 import validate from '../middlewares/validate';
 import Imagevalidator from '../middlewares/imageValidator';
 import propertyValidator from '../middlewares/propertyValidator';
@@ -16,6 +17,10 @@ const {
 } = AgentPropertyController;
 
 const {
+  GetAllProperties,
+} = UserPropertyController;
+
+const {
   propertyFieldsValidator,
   isAdvPurposeRent,
 } = propertyValidator;
@@ -25,6 +30,9 @@ router.post('/agent', uploaded, Imagevalidator, propertyFieldsValidator, isAdvPu
 router.patch('/agent/:id', UpdateProperty);
 router.patch('/agent/:id/sold', MarkSoldProperty);
 router.delete('/agent/:id', DeleteProperty);
+
+// for user
+router.get('/', GetAllProperties);
 
 
 export default router;
