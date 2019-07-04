@@ -10,6 +10,7 @@ const uploaded = upload.single('image_url');
 const router = express.Router();
 const {
   createProperty,
+  UpdateProperty,
 } = AgentPropertyController;
 
 const {
@@ -19,5 +20,6 @@ const {
 
 // for agents
 router.post('/agent', uploaded, Imagevalidator, propertyFieldsValidator, isAdvPurposeRent, validate, createProperty);
+router.patch('/agent/:id', UpdateProperty);
 
 export default router;
