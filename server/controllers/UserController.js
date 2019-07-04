@@ -23,6 +23,7 @@ class UserController {
       data: newSignup,
     });
   }
+  // for signin
 
   static async signIn(req, res) {
     const { email } = req.body;
