@@ -11,6 +11,7 @@ const router = express.Router();
 const {
   createProperty,
   UpdateProperty,
+  MarkSoldProperty,
 } = AgentPropertyController;
 
 const {
@@ -21,5 +22,7 @@ const {
 // for agents
 router.post('/agent', uploaded, Imagevalidator, propertyFieldsValidator, isAdvPurposeRent, validate, createProperty);
 router.patch('/agent/:id', UpdateProperty);
+router.patch('/agent/:id/sold', MarkSoldProperty);
+
 
 export default router;
