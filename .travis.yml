@@ -1,0 +1,17 @@
+language: node_js
+env:
+  global:
+    - NODE_ENV=test
+node_js: 
+  - "stable"
+cache:
+  directories:
+    - "node_modules"
+install:
+  - npm install
+
+script: npm test
+after_success: 'npm run coverage'
+after_failure: 'cat /home/travis/.npm/_logs/2019-04-*-debug.log'
+
+
