@@ -57,6 +57,35 @@ class PropertyController {
       data: Prop,
     });
   }
+
+  static async GetProperty(req, res) {
+    const Prop = [];
+    const id = parseInt(req.params.id, 10);
+    const found = allProperties.some((property) => {
+      return (property.id === id);
+    });
+    if (!found) {
+      return res.status(404).json({
+        status: 'error',
+        error: 'No such property exists',
+      });
+    }
+    const singleProperty = allProperties.find((property) => {
+      return (property.id === id);
+    });
+    const userDet = allUsers.find((user) => {
+      return (singleProperty.owner === user.id);
+    });
+    const singleProp = { ...singleProperty };
+    singleProp.ownerEmail = userDet.email;
+    singleProp.ownerPhoneNumber = userDet.phoneNumber;
+    delete singleProp.owner;
+    Prop.push(singleProp);
+    return res.status(200).json({
+      status: 'success',
+      data: singleProp,
+    });
+  }
 }
 
 export default PropertyController;
