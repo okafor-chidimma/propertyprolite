@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import path from 'path';
 import userRoute from './routes/userRoute';
+import propertyRoute from './routes/propertyRoute';
 
 // to initialise express package
 const app = express();
@@ -21,6 +22,7 @@ app.use(bodyParser.json());
 app.use(favicon(path.join(__dirname, 'public', 'companylogo.ico')));
 
 app.use('/api/v1/auth', userRoute);
+app.use('/api/v1/property', propertyRoute);
 
 
 app.get('/', (req, res) => {
