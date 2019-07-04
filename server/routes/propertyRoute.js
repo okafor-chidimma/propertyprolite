@@ -18,6 +18,7 @@ const {
 
 const {
   GetAllProperties,
+  GetProperty,
 } = UserPropertyController;
 
 const {
@@ -33,6 +34,7 @@ router.delete('/agent/:id', DeleteProperty);
 
 // for user
 router.get('/', GetAllProperties);
+router.get('/:id', GetProperty);
 
 
 export default router;
