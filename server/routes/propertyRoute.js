@@ -12,6 +12,7 @@ const {
   createProperty,
   UpdateProperty,
   MarkSoldProperty,
+  DeleteProperty,
 } = AgentPropertyController;
 
 const {
@@ -23,6 +24,7 @@ const {
 router.post('/agent', uploaded, Imagevalidator, propertyFieldsValidator, isAdvPurposeRent, validate, createProperty);
 router.patch('/agent/:id', UpdateProperty);
 router.patch('/agent/:id/sold', MarkSoldProperty);
+router.delete('/agent/:id', DeleteProperty);
 
 
 export default router;
