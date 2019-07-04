@@ -1,9 +1,16 @@
 /* eslint-disable camelcase */
 import properties from '../models/propertyModel';
 import users from '../models/userModel';
+import flaggedProps from '../models/flaggedProperties';
+import auth from '../helpers/Auth';
+
+const { verifyToken } = auth;
+
 
 const allProperties = properties;
 const allUsers = users;
+const allflaggedProperties = flaggedProps;
+const flaggedPropsCount = allflaggedProperties.length;
 
 class PropertyController {
   static async GetAllProperties(req, res) {
@@ -84,6 +91,40 @@ class PropertyController {
     return res.status(200).json({
       status: 'success',
       data: singleProp,
+    });
+  }
+
+  static async MarkPropAsFraud(req, res) {
+    // must be logged in
+    const token = req.headers['x-auth-token'];
+    verifyToken(res, token);
+    const bodyProperty = req.body;
+    const propertyId = parseInt(req.params.id, 10);
+    const found = allProperties.some((property) => {
+      return (property.id === propertyId);
+    });
+    if (!found) {
+      return res.status(404).json({
+        status: 'error',
+        error: 'No such property exists',
+      });
+    }
+    const newFlaggedProp = {};
+    newFlaggedProp.id = flaggedPropsCount + 1;
+    newFlaggedProp.propertyId = propertyId;
+    const keysNew = Object.keys(bodyProperty);
+    keysNew.forEach((key) => {
+      newFlaggedProp[key] = bodyProperty[key];
+    });
+    newFlaggedProp.created_on = new Date();
+    allflaggedProperties.push(newFlaggedProp);
+    const updatePropFlag = allProperties.find((prop) => {
+      return prop.id === parseInt(propertyId, 10);
+    });
+    updatePropFlag.fraud = true;
+    return res.status(201).json({
+      status: 'success',
+      data: newFlaggedProp,
     });
   }
 }

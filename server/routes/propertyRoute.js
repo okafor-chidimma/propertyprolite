@@ -19,6 +19,7 @@ const {
 const {
   GetAllProperties,
   GetProperty,
+  MarkPropAsFraud,
 } = UserPropertyController;
 
 const {
@@ -35,6 +36,7 @@ router.delete('/agent/:id', DeleteProperty);
 // for user
 router.get('/', GetAllProperties);
 router.get('/:id', GetProperty);
+router.patch('/:id/fraud', MarkPropAsFraud);
 
 
 export default router;
