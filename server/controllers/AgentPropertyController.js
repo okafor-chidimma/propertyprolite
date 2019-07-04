@@ -143,6 +143,31 @@ class AgentPropertyController {
       data: deleteSuccess,
     });
   }
+
+  static async GetMyProperties(req, res) {
+    const token = req.headers['x-auth-token'];
+    const verifyTokenAnswer = verifyToken(res, token);
+    const userId = verifyTokenAnswer.id;
+    // get all properties
+    // remove the owner property id from the object
+    // use the owner id to grab the phone no and address of the owners
+    const found = allProperties.some((property) => {
+      return (property.owner === userId);
+    });
+    if (!found) {
+      return res.status(404).json({
+        status: 'error',
+        error: 'You do not have any property advert yet',
+      });
+    }
+    const myProperties = allProperties.filter((property) => {
+      return property.owner === userId;
+    });
+    return res.status(200).json({
+      status: 'success',
+      data: myProperties,
+    });
+  }
 }
 
 export default AgentPropertyController;
