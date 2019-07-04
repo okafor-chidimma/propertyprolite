@@ -8,7 +8,11 @@
     "test": "./node_modules/.bin/mocha --require @babel/register ./server/tests/*.js --exit",
     "build": "babel src --out-dir ./dist --source-maps",
     "serve": "node ./dist/index.js",
-    "debug": "node --inspect-brk ./dist/index.js"
+    "debug": "node --inspect-brk ./dist/index.js",
+    "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
+    "coveralls-coverage": "coveralls < lcov.info",
+    "codeclimate-coverage": "codeclimate-test-reporter < lcov.info",
+    "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage && npm run codeclimate-coverage"
   },
   "repository": {
     "type": "git",
@@ -50,10 +54,13 @@
     "@babel/preset-env": "^7.4.5",
     "@babel/register": "^7.4.4",
     "@babel/runtime": "^7.4.5",
+    "codeclimate-test-reporter": "^0.5.1",
+    "coveralls": "^3.0.4",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.0",
     "mocha": "^6.1.4",
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "nyc": "^14.1.1"
   }
 }
