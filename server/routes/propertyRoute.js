@@ -14,6 +14,7 @@ const {
   UpdateProperty,
   MarkSoldProperty,
   DeleteProperty,
+  GetMyProperties,
 } = AgentPropertyController;
 
 const {
@@ -28,6 +29,7 @@ const {
 } = propertyValidator;
 
 // for agents
+router.get('/agent', GetMyProperties);
 router.post('/agent', uploaded, Imagevalidator, propertyFieldsValidator, isAdvPurposeRent, validate, createProperty);
 router.patch('/agent/:id', UpdateProperty);
 router.patch('/agent/:id/sold', MarkSoldProperty);
