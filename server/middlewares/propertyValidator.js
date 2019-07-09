@@ -4,33 +4,28 @@ const propertyValidator = {
   propertyFieldsValidator: [
     body('no_of_rooms')
       .exists({ checkFalsy: true })
-      .withMessage('Number of Rooms is required!')
       .isNumeric()
-      .withMessage('Number of rooms must be a number!')
+      .withMessage('Number of rooms is required and must be a number!')
       .trim(),
     body('type')
       .exists({ checkFalsy: true })
-      .withMessage('Property type is required!')
       .isIn(['flat', 'mini-flat', 'duplex', 'self-contained', 'bungalow'])
       .withMessage('Invalid property type!')
       .trim(),
     body('country')
       .exists({ checkFalsy: true })
-      .withMessage('Country is required!')
       .isString()
-      .withMessage('Country name must be alphabets!')
+      .withMessage('Country is required and must be alphabets!')
       .trim(),
     body('state')
       .exists({ checkFalsy: true })
-      .withMessage('State is required!')
       .isString()
-      .withMessage('State name must be only alphabets!')
+      .withMessage('State name is required and must be only alphabets!')
       .trim(),
     body('city')
       .exists({ checkFalsy: true })
-      .withMessage('City is required!')
       .isString()
-      .withMessage('City name must be only alphabets!')
+      .withMessage('City name is required and must be only alphabets!')
       .trim(),
     body('address')
       .exists({ checkFalsy: true })
@@ -43,15 +38,13 @@ const propertyValidator = {
       .trim(),
     body('price')
       .exists({ checkFalsy: true })
-      .withMessage('Price Value is required!')
       .isFloat()
-      .withMessage('Invalid price value!')
+      .withMessage('Please Check Input!')
       .trim(),
     body('adv_desc')
       .exists({ checkFalsy: true })
-      .withMessage('Advert Description is required!')
       .isString()
-      .withMessage('Advert Must contain only string')
+      .withMessage('Advert Description is required!')
       .trim(),
     body('adv_purpose')
       .exists({ checkFalsy: true })
@@ -67,9 +60,8 @@ const propertyValidator = {
       .trim(),
     body('status')
       .exists({ checkFalsy: true })
-      .withMessage('Status is required!')
       .isString()
-      .withMessage('Must Be A String!')
+      .withMessage('Status is required!')
       .trim(),
   ],
   isAdvPurposeRent: [
@@ -89,9 +81,8 @@ const propertyValidator = {
   isAdvFraudulent: [
     body('location')
       .exists({ checkFalsy: true })
-      .withMessage('Your Location is required!')
       .isString()
-      .withMessage('Must Be a String')
+      .withMessage('Your Location is required!')
       .trim(),
     body('reason')
       .exists({ checkFalsy: true })

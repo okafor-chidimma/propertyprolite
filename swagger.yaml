@@ -1,0 +1,782 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: PROPERTY PRO LITE
+  description: 'Property Pro Lite is a secure and efficient online Application for all things property. Rent, buy or sale inclusive'
+  contact: 
+    email: "chidimma.okafor.c@gmail.com"
+# during dev, should point to your local machine
+host: 127.0.0.1:6890
+# basePath prefixes all resource paths 
+basePath: /api/v1
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+# route headers 
+tags:
+- name: Users
+  description: 'api route for all users'
+- name: Property
+  description: api route for all properties
+
+paths:
+  /auth/signup:
+    # our controller name
+    x-swagger-router-controller: UserPropertyController
+    post:
+      tags:
+        - Users
+      operationId: AuthSignupPost
+      description: Registers a new User
+      summary: 127.0.0.1:6890/api/v1/auth/signup
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      # user info to be stored
+      parameters:
+       - name: Content-Type
+         in: header
+         required: true
+         type: string
+         description: ''
+       - name: first_name
+         in: formData
+         required: true
+         type: string
+         description: ''
+       - name: last_name
+         in: formData
+         required: true
+         type: string
+         description: ''
+       - name: email
+         in: formData
+         required: true
+         type: string
+         description: ''
+       - name: password
+         in: formData
+         required: true
+         type: string
+         description: ''
+       - name: phoneNumber
+         in: formData
+         required: true
+         type: string
+         description: ''
+       - name: address
+         in: formData
+         required: true
+         type: string
+         description: ''
+       - name: type
+         in: formData
+         required: true
+         type: string
+         description: ''
+       - name: is_admin
+         in: formData
+         required: true
+         type: boolean
+         description: ''
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: "#/definitions/UserResponse"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /auth/signin: 
+    x-swagger-router-controller: UserPropertyController
+    post:
+      description: user can login with proper params
+      summary: 127.0.0.1:6890/api/v1/auth/signin
+      tags:
+        - Users
+      operationId: AuthSignInPost
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+       # user info to be stored
+      parameters:
+       - name: Content-Type
+         in: header
+         required: true
+         type: string
+         description: ''
+       - name: email
+         in: formData
+         required: true
+         type: string
+         description: ''
+       - name: password
+         in: formData
+         required: true
+         type: string
+         description: ''
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/UserResponse"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /property/agent: 
+    x-swagger-router-controller: AgentPropertyController
+    post:
+      description: Agent Can Post an advert when logged in
+      summary: 127.0.0.1:6890/api/v1/property/agent
+      tags:
+        - Property
+      operationId: AgentPropertyPost
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      # advert info to be stored
+      parameters:
+       - name: Content-Type
+         in: header
+         required: true
+         type: string
+         description: ''
+       - name: x-auth-token
+         in: header
+         required: true
+         type: string
+         description: ''
+       - name: Image_url
+         in: formData
+         required: true
+         type: string
+         description: ''
+       - name: price
+         in: formData
+         required: true
+         type: number
+         description: ''
+       - name: country
+         in: formData
+         required: true
+         type: string
+         description: ''
+       - name: state
+         in: formData
+         required: true
+         type: string
+         description: ''
+       - name: city
+         in: formData
+         required: true
+         type: string
+         description: ''
+       - name: address
+         in: formData
+         required: true
+         type: string
+         description: ''
+       - name: status
+         in: formData
+         required: true
+         type: string
+         description: ''
+       - name: no_of_rooms
+         in: formData
+         required: true
+         type: number
+         description: ''
+       - name: type
+         in: formData
+         required: true
+         type: string
+         description: ''
+       - name: adv_desc
+         in: formData
+         required: true
+         type: string
+         description: ''
+       - name: adv_purpose
+         in: formData
+         required: true
+         type: string
+         description: ''
+       - name: duration
+         in: formData
+         required: true
+         type: string
+         description: ''
+       - name: fraud
+         in: formData
+         required: true
+         type: boolean
+         description: 'default value is false'
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: "#/definitions/PropertyResponse"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    get: 
+      description: Agent Can get all his/her adverts when logged in
+      summary: 127.0.0.1:6890/api/v1/property/agent
+      tags:
+        - Property
+      operationId: AgentPropertyGet
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+       - name: x-auth-token
+         in: header
+         required: true
+         type: string
+         description: ''
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/PropertyResponse"
+        "404":
+          description: Page Not Found
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /property/agent/{id}:
+    # our controller name
+    x-swagger-router-controller: AgentPropertyCOntroller
+    get:
+      summary: 127.0.0.1:6890/api/v1/property/agent/{id}
+      tags:
+        - Property
+      operationId: AgentPropertyGetOne
+      description: get an agents advert
+      # define the type of response for Success "200" and Error
+      parameters:
+        - name: id
+          type: string
+          in: path
+          required: true
+          description: Advert Id
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/PropertyResponse"
+        "404":
+          description: Page Not Found
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    patch:
+      summary: 127.0.0.1:6890/api/v1/property/agent/{id}
+      tags:
+        - Property
+      operationId: AgentPropertyUpdate
+      description: Update an agents advert
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      # define the parameters
+      parameters:
+        - name: id
+          type: string
+          in: path
+          required: true
+          description: Advert Id
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: x-auth-token
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Image_url
+          in: formData
+          required: true
+          type: string
+          description: ''
+        - name: price
+          in: formData
+          required: true
+          type: string
+          description: ''
+        - name: country
+          in: formData
+          required: true
+          type: string
+          description: ''
+        - name: state
+          in: formData
+          required: true
+          type: string
+          description: ''
+        - name: city
+          in: formData
+          required: true
+          type: string
+          description: ''
+        - name: address
+          in: formData
+          required: true
+          type: string
+          description: ''
+        - name: status
+          in: formData
+          required: true
+          type: string
+          description: ''
+        - name: no_of_rooms
+          in: formData
+          required: true
+          type: number
+          description: ''
+        - name: type
+          in: formData
+          required: true
+          type: string
+          description: ''
+        - name: adv_desc
+          in: formData
+          required: true
+          type: string
+          description: ''
+        - name: adv_purpose
+          in: formData
+          required: true
+          type: string
+          description: ''
+        - name: duration
+          in: formData
+          required: true
+          type: string
+          description: ''
+        - name: fraud
+          in: formData
+          required: true
+          type: boolean
+          description: ''
+      responses:
+          "200":
+            description: Success
+            schema:
+              $ref: "#/definitions/PropertyResponse"
+          "400": 
+            description: Bad Request
+            schema:
+              $ref: "#/definitions/ErrorResponse"
+          "404":
+            description: Page Not Found
+            schema:
+              $ref: "#/definitions/ErrorResponse"
+          "500":
+            description: Internal Server Error
+            schema:
+              $ref: "#/definitions/ErrorResponse"
+          
+    delete:
+      summary: 127.0.0.1:6890/api/v1/property/agent/{id}
+      tags:
+        - Property
+      operationId: AgentPropertyDelete
+      description: Delete an agents advert
+      # define the parameters
+      parameters:
+        - name: id
+          description: Advert id
+          type: string
+          in: path
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/DeletePropertyResponse"
+        "404":
+          description: Page Not Found
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /property/agent/{id}/sold:
+    # our controller name
+    x-swagger-router-controller: AgentPropertyCOntroller
+    patch:
+      summary: 127.0.0.1:6890/api/v1/property/agent/{id}/sold
+      tags:
+        - Property
+      operationId: AgentPropertyMarkSold
+      description: update an advert when sold
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      # define the type of response for Success "200" and Error
+      parameters:
+        - name: id
+          type: string
+          in: path
+          required: true
+          description: Advert Id
+        - name: status
+          in: formData
+          required: true
+          type: string
+          description: 'status is set to true'
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/PropertyResponse"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "404":
+          description: Page Not found
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /property:
+    # our controller name
+    x-swagger-router-controller: UserPropertyController
+    get:
+      summary: 127.0.0.1:6890/api/v1/property
+      tags:
+        - Property
+      operationId: PropertyGetAll
+      description: Get all placed adverts
+      deprecated: false
+      # define the type of response for Success "200" and Error
+      parameters:
+        - name: type
+          type: string
+          in: query
+          required: true
+          description: Type of Property to be fetched
+        - name: rooms
+          type: number
+          in: query
+          required: true
+          description: Number of rooms for the properties to be fetched
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/UserPropertyResponse"
+        "404":
+          description: Page not Found
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /property/{id}/:
+    # our controller name
+    x-swagger-router-controller: UserPropertyController
+    get:
+      summary: 127.0.0.1:6890/api/v1/property/{id}
+      tags:
+        - Property
+      operationId: PropertyGetOne
+      description: Get a single placed advert
+      deprecated: false
+      # define the type of response for Success "200" and Error
+      parameters:
+        - name: id
+          type: string
+          in: path
+          required: true
+          description: Advert Id
+          
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/UserPropertyResponse"
+        "404":
+          description: Page not Found
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /property/{id}/fraud:
+    # our controller name
+    x-swagger-router-controller: UserPropertyController
+    patch:
+      summary: 127.0.0.1:6890/api/v1/property/{id}/fraud
+      tags:
+        - Property
+      operationId: UserPropertyMarkFraud
+      description: Mark an advert as fraudulent
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      # define the type of response for Success "200" and Error
+      parameters:
+        - name: id
+          type: string
+          in: path
+          required: true
+          description: Advert Id
+          
+        - name: location
+          in: formData
+          required: true
+          type: string
+          description: 'intervention location'
+          
+        - name: reason
+          in: formData
+          required: true
+          type: string
+          description: 'reason'
+          
+        - name: fraud_desc
+          in: formData
+          required: true
+          type: string
+          description: 'give your reasons'
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/FlaggedPropertyResponse"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+        "404":
+          description: Page Not Found
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  # GET /movie successful response
+  UserResponse:
+    properties:
+      # The json object response
+      status:
+        type: string
+      data: 
+        type: object
+        properties:
+          token:
+            type: string
+          newUser:
+            type: object
+            properties: 
+              id:
+                type: number
+              first_name: 
+                type: string
+              last_name: 
+                type: string
+              email: 
+                type: string
+              password: 
+                type: string
+              phoneNumber: 
+                type: string
+              address: 
+                type: string
+              is_admin: 
+                type: string
+
+  PropertyResponse:
+    properties:
+      # The json object response
+      status:
+        type: string
+      data: 
+        type: object
+        properties: 
+          id:
+            type: number
+          owner:
+            type: number
+          status: 
+            type: string
+          price: 
+            type: number
+          country: 
+            type: string
+          state: 
+            type: string
+          city: 
+            type: string
+          address: 
+            type: string
+          no_of_rooms:
+            type: number
+          type: 
+            type: string
+          adv_desc:
+            type: string
+          adv_purp:
+            type: string
+          fraud:
+            type: boolean
+          created_on:
+            type: string
+          image_url:
+            type: string
+            
+  DeletePropertyResponse:
+    required:
+    - status
+    - data
+    type: object
+    properties:
+      status: 
+        type: string
+      data:
+        type: object
+        properties:
+          message: 
+            type: string
+            
+  UserPropertyResponse: 
+    properties:
+      # The json object response
+      status:
+        type: string
+      data: 
+        type: object
+        properties: 
+          id:
+            type: number
+          status: 
+            type: string
+          price: 
+            type: number
+          country: 
+            type: string
+          state: 
+            type: string
+          city: 
+            type: string
+          address: 
+            type: string
+          no_of_rooms:
+            type: number
+          type: 
+            type: string
+          adv_desc:
+            type: string
+          adv_purp:
+            type: string
+          fraud:
+            type: boolean
+          created_on:
+            type: string
+          image_url:
+            type: string
+          OwnerEmail: 
+            type: string
+          OwnerPhoneNumber:
+            type: string
+            
+  FlaggedPropertyResponse:
+    required:
+    - status
+    - data
+    type: object
+    properties:
+      status: 
+        type: string
+      data:
+        type: object
+        properties:
+          id:
+            type: number
+          propertyId:
+            type: number
+          location: 
+            type: string
+          reason: 
+            type: string
+          fraud_desc: 
+            type: string
+          created_at: 
+            type: string
+  ErrorResponse:
+    required:
+      - status
+    properties:
+      status:
+        type: string
+      error:
+        type: string

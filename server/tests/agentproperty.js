@@ -88,7 +88,7 @@ describe('Agents Property Endpoints', () => {
       chai.request(app).post('/api/v1/property/agent').send(partialPropertyDetails).end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('status').eql('error');
-        res.body.should.have.property('error').eql('Status is required!');
+        res.body.should.have.property('error').eql('Invalid value');
         done();
       });
     });
@@ -97,7 +97,7 @@ describe('Agents Property Endpoints', () => {
       chai.request(app).post('/api/v1/property/agent').send(partialPropertyDetails).end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('status').eql('error');
-        res.body.should.have.property('error').eql('Price Value is required!');
+        res.body.should.have.property('error').eql('Invalid value');
         done();
       });
     });
@@ -106,7 +106,7 @@ describe('Agents Property Endpoints', () => {
       chai.request(app).post('/api/v1/property/agent').send(partialPropertyDetails).end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('status').eql('error');
-        res.body.should.have.property('error').eql('Country is required!');
+        res.body.should.have.property('error').eql('Invalid value');
         done();
       });
     });
@@ -115,7 +115,7 @@ describe('Agents Property Endpoints', () => {
       chai.request(app).post('/api/v1/property/agent').send(partialPropertyDetails).end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('status').eql('error');
-        res.body.should.have.property('error').eql('State is required!');
+        res.body.should.have.property('error').eql('Invalid value');
         done();
       });
     });
@@ -124,7 +124,7 @@ describe('Agents Property Endpoints', () => {
       chai.request(app).post('/api/v1/property/agent').send(partialPropertyDetails).end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('status').eql('error');
-        res.body.should.have.property('error').eql('City is required!');
+        res.body.should.have.property('error').eql('Invalid value');
         done();
       });
     });
@@ -142,7 +142,7 @@ describe('Agents Property Endpoints', () => {
       chai.request(app).post('/api/v1/property/agent').send(partialPropertyDetails).end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('status').eql('error');
-        res.body.should.have.property('error').eql('Number of Rooms is required!');
+        res.body.should.have.property('error').eql('Invalid value');
         done();
       });
     });
@@ -151,7 +151,7 @@ describe('Agents Property Endpoints', () => {
       chai.request(app).post('/api/v1/property/agent').send(partialPropertyDetails).end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('status').eql('error');
-        res.body.should.have.property('error').eql('Property type is required!');
+        res.body.should.have.property('error').eql('Invalid value');
         done();
       });
     });
@@ -160,7 +160,7 @@ describe('Agents Property Endpoints', () => {
       chai.request(app).post('/api/v1/property/agent').send(partialPropertyDetails).end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('status').eql('error');
-        res.body.should.have.property('error').eql('Advert Description is required!');
+        res.body.should.have.property('error').eql('Invalid value');
         done();
       });
     });
