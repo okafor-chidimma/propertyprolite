@@ -45,10 +45,6 @@ class PropertyController {
         data: Prop,
       });
     }
-    // get all properties
-    // remove the owner property id from the object
-    // use the owner id to grab the phone no and address of the owners
-
     allProperties.forEach((prop) => {
       const userD = allUsers.find((userDet) => {
         return userDet.id === prop.owner;
