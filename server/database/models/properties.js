@@ -13,7 +13,7 @@ const properties = `CREATE TABLE IF NOT EXISTS properties(
     adv_desc VARCHAR(100),
     adv_purpose VARCHAR(50),
     duration VARCHAR(50),
-    image_url VARCHAR(200) DEFAULT NULL,
+    image_url VARCHAR(200),
     public_id VARCHAR (200),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP)`;

@@ -3,11 +3,11 @@ const users = `CREATE TABLE IF NOT EXISTS users (
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     address VARCHAR(100),
-    email VARCHAR(50) UNIQUE,
+    email VARCHAR(50),
     password VARCHAR(100),
     type VARCHAR(30),
     is_admin BOOLEAN DEFAULT false,
-    phone_number VARCHAR(30) UNIQUE,
+    phone_number VARCHAR(30),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   )`;
