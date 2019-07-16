@@ -149,7 +149,7 @@ class AgentPropertyController {
     const { user_id } = req.headers['x-auth-token'];
     const property_id = parseInt(req.params.id, 10);
     let values = [property_id, user_id];
-    const { status } = req.body;
+    const status = req.body.status || 'SOLD';
     const client = await pool.connect();
     try {
       const { rows: soldProp } = await client.query(getPropertyQuery, values);
