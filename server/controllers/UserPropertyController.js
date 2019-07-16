@@ -99,6 +99,7 @@ class PropertyController {
       await client.query('COMMIT');
       return res.status(201).json(successResponse(`Advert Flagged Successfully`, rowFlagged[0]));
     } catch (error) {
+      console.log(error, 'error in fraud');
       await client.query('ROLLBACK');
       return res.status(500).json(errorResponse(`Internal Server Error!`));
     } finally {

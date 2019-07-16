@@ -7,13 +7,9 @@ let agentPassword1;
   const { encryptPassword } = Passcode;
   try {
     agentPassword1 = await encryptPassword('userpassword');
-    console.log(agentPassword1, 'userpassword');
   } catch (error) {
     console.log(error, 'password');
   }
-
-  console.log(agentPassword1, 'outside');
-
 
   const agent1 = `INSERT INTO users(first_name, last_name, email, 
           password, address, type, is_admin, phone_number)
@@ -26,7 +22,7 @@ let agentPassword1;
                     adv_desc, adv_purpose, duration, image_url, public_id)
                     VALUES(1, 'Available', 6844.22, 'Nigeria', 
                     'Anambra', 'Awka', 'No 4 Abaji Street', 3, false, 
-                    'duplex', 'it is a little duplex', 'rent', '2 Years', 
+                    'flat', 'it is a little duplex', 'rent', '2 Years', 
                     'http://res.cloudinary.com/okafor-chidimma/image/upload/v1562108668/ybxnh9g2jlkiho1ubpq2.jpg', 
                     'uugggfdfggfb')`;
   const flaggedProperty1 = `INSERT INTO flaggedproperties
