@@ -9,7 +9,7 @@ import signInDet from '../testData/users';
 import newProp from '../testData/agentproperty';
 // import properties from '../models/propertyModel';
 const { UserToken, testAgentSignin } = signInDet;
-const { newProperty } = newProp;
+const { newProperty, newProperty2 } = newProp;
 let AgentToken;
 let property_id;
 
@@ -31,6 +31,47 @@ describe('Agents Property Endpoints', () => {
         .post('/api/v1/property')
         .set('x-auth-token', AgentToken)
         .send(newProperty)
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.should.have.property('status').eql('Advert posted Successfully');
+          res.body.should.have.property('data');
+          res.body.data.should.be.an('object');
+          res.body.data.should.have.property('id');
+          res.body.data.id.should.be.a('number');
+          res.body.data.should.have.property('status');
+          res.body.data.status.should.be.a('string');
+          res.body.data.should.have.property('price');
+          res.body.data.price.should.be.a('number');
+          res.body.data.should.have.property('country');
+          res.body.data.country.should.be.a('string');
+          res.body.data.should.have.property('state');
+          res.body.data.state.should.be.a('string');
+          res.body.data.should.have.property('city');
+          res.body.data.city.should.be.a('string');
+          res.body.data.should.have.property('address');
+          res.body.data.address.should.be.a('string');
+          res.body.data.should.have.property('no_of_rooms');
+          res.body.data.no_of_rooms.should.be.a('number');
+          res.body.data.should.have.property('type');
+          res.body.data.type.should.be.a('string');
+          res.body.data.should.have.property('adv_desc');
+          res.body.data.adv_desc.should.be.a('string');
+          res.body.data.should.have.property('adv_purpose');
+          res.body.data.adv_purpose.should.be.a('string');
+          res.body.data.should.have.property('duration');
+          res.body.data.duration.should.be.a('string');
+          res.body.data.should.have.property('image_url');
+          res.body.data.image_url.should.be.a('string');
+          res.body.data.should.have.property('created_on');
+          res.body.data.created_on.should.be.a('string');
+          done();
+        });
+    });
+    it('should create a new property advert', (done) => {
+      chai.request(app)
+        .post('/api/v1/property')
+        .set('x-auth-token', AgentToken)
+        .send(newProperty2)
         .end((err, res) => {
           res.should.have.status(201);
           res.body.should.have.property('status').eql('Advert posted Successfully');

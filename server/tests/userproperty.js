@@ -195,7 +195,7 @@ describe('Users Property Endpoints', () => {
   });
   describe('PATCH /property/:id/fraud', () => {
     it('Should mark an advert as fraudulent', (done) => {
-      property_id = 2;
+      property_id = 3;
       chai.request(app)
         .patch(`/api/v1/property/${property_id}/fraud`)
         .set('x-auth-token', UserToken)
