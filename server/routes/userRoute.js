@@ -4,7 +4,9 @@ import validate from '../middlewares/validate';
 import userValidator from '../middlewares/userValidator';
 
 const router = express.Router();
-const { signUp, signIn, validateToken } = UserController;
+const {
+  signUp, signIn, validateToken, showApiVersioning
+} = UserController;
 const {
   emailValidator,
   passwordValidator,
@@ -22,6 +24,6 @@ router.post('/signup',
 router.post('/signin', emailValidator, passwordValidator, validate, signIn);
 
 router.post('/validate/token', tokenValidator, validate, validateToken);
-
+router.get('/', showApiVersioning);
 
 export default router;

@@ -20,8 +20,6 @@ let agentPassword2;
   } catch (error) {
     console.log(error, 'password');
   }
-
-  console.log(userPassword, 'outside');
   const user = `INSERT INTO users(first_name, last_name, 
                   email, password, address, type, is_admin, phone_number)
                   VALUES('Chika', 'Igwe', 'chikaigwe@yahoo.com', 
