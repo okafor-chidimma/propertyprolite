@@ -8,20 +8,11 @@ const {
   signUp, signIn, validateToken, showApiVersioning
 } = UserController;
 const {
-  emailValidator,
-  passwordValidator,
-  nameValidator,
-  phoneNumberValidator,
-  addressValidator,
-  typeValidator,
-  isAdminValidator,
   tokenValidator,
 } = userValidator;
 
-router.post('/signup',
-  emailValidator, passwordValidator, nameValidator, phoneNumberValidator,
-  addressValidator, typeValidator, isAdminValidator, validate, signUp);
-router.post('/signin', emailValidator, passwordValidator, validate, signIn);
+router.post('/signup', signUp);
+router.post('/signin', signIn);
 
 router.post('/validate/token', tokenValidator, validate, validateToken);
 router.get('/', showApiVersioning);
