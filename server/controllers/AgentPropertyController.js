@@ -10,7 +10,10 @@ import auth from '../helpers/Auth';
 // eslint-disable-next-line no-unused-vars
 import cloudDet from '../config/cloudinary';
 
-const { insertPropertyQuery, getpublicId, updateAllProperty } = agentPropQueries;
+const {
+  insertPropertyQuery, getpublicId, updateAllProperty,
+  getPropertyQuery, updatePropertyStat
+} = agentPropQueries;
 
 const { successResponse, errorResponse } = Response;
 
@@ -113,28 +116,25 @@ class AgentPropertyController {
 
 
   static async MarkSoldProperty(req, res) {
-    const token = req.headers['x-auth-token'];
-    const verifyTokenAnswer = verifyToken(res, token);
-    const userId = verifyTokenAnswer.id;
-    const id = parseInt(req.params.id, 10);
-    const found = allProperties.some((property) => {
-      return (property.id === id && property.owner === userId);
-    });
-    if (!found) {
-      return res.status(404).json({
-        status: 'error',
-        error: 'No such property exists',
-      });
+    const { user_id } = req.headers['x-auth-token'];
+    const property_id = parseInt(req.params.id, 10);
+    let values = [property_id, user_id];
+    const { status } = req.body;
+    const client = await pool.connect();
+    try {
+      const { rows: soldProp } = await client.query(getPropertyQuery, values);
+      if (!soldProp[0]) {
+        return res.status(404).json(errorResponse(`This Property Advert can not found!`));
+      }
+      values = [status, property_id, user_id];
+      const { rows: rowUpdated } = await client.query(updatePropertyStat, values);
+      const updateProp = rowUpdated[0];
+      return res.status(200).json(successResponse(`Advert Status Updated Successfully`, updateProp));
+    } catch (error) {
+      return res.status(500).json(errorResponse(`Internal Server Error`));
+    } finally {
+      await client.release();
     }
-    const soldProperty = req.body.status;
-    const singleProperty = allProperties.find((property) => {
-      return (property.id === id && property.owner === userId);
-    });
-    singleProperty.status = soldProperty;
-    return res.status(200).json({
-      status: 'success',
-      data: singleProperty,
-    });
   }
 
   static async DeleteProperty(req, res) {
