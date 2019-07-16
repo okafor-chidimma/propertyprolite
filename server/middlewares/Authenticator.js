@@ -9,7 +9,10 @@ class Authenticator {
   static async isLoggedIn(req, res, next) {
     let msg;
     try {
-      const requestToken = req.body.token;
+      const reqBody = req.body.token;
+      const requestHeader = req.headers.authorization;
+      const requestHeaderArray = requestHeader.split(' ');
+      const requestToken = requestHeaderArray[1] || reqBody;
       console.log(req.headers, 'headers from andela');
       console.log(req.body, 'body from andela');
       console.log(requestToken, 'inside try request from test');
