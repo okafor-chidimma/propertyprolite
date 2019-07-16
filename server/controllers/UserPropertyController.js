@@ -61,6 +61,10 @@ class PropertyController {
    */
 
   static async GetProperty(req, res) {
+    console.log(req.headers['x-auth-token'], 'user prop token');
+    // console.log(user_id, 'user');
+    console.log(req.params.id, 'user get prop');
+    console.log(typeof req.params.id, 'user get prop');
     const client = await pool.connect();
     try {
       const { id: property_id } = req.params;
@@ -81,6 +85,10 @@ class PropertyController {
 
   static async MarkPropAsFraud(req, res) {
     // must be logged in
+    console.log(req.headers['x-auth-token'], 'user fraud token');
+    // console.log(user_id, 'user');
+    console.log(req.params.id, 'user fraud');
+    console.log(typeof req.params.id, 'user fraud');
     const { id: property_id } = req.params;
     const value = [property_id];
     const { reason, location, description } = req.body;

@@ -38,6 +38,8 @@ class AgentPropertyController {
    */
   static async createProperty(req, res) {
     const { user_id } = req.headers['x-auth-token'];
+    console.log(req.headers['x-auth-token'], 'user create token');
+    console.log(user_id, 'user');
     if (req.file !== undefined) {
       fileReq = req.file.path;
     } else {
@@ -89,6 +91,8 @@ class AgentPropertyController {
 
   static async UpdateProperty(req, res) {
     const { user_id } = req.headers['x-auth-token'];
+    console.log(req.headers['x-auth-token'], 'user update token');
+    console.log(user_id, 'user');
     if (req.file !== undefined) {
       fileReq = req.file.path;
     } else {
@@ -105,6 +109,8 @@ class AgentPropertyController {
       result_cloud_url = fileReq; publicId = 'uuyyytttfdfgf';
     }
     const property_id = parseInt(req.params.id, 10);
+    console.log(req.params.id, 'user');
+    console.log(typeof req.params.id, 'user');
     let values = [property_id, user_id];
     const {
       status: status_input, price: price_input, country: country_input,
@@ -147,6 +153,10 @@ class AgentPropertyController {
 
   static async MarkSoldProperty(req, res) {
     const { user_id } = req.headers['x-auth-token'];
+    console.log(req.headers['x-auth-token'], 'user sold token');
+    console.log(user_id, 'user');
+    console.log(req.params.id, 'user');
+    console.log(typeof req.params.id, 'user');
     const property_id = parseInt(req.params.id, 10);
     let values = [property_id, user_id];
     const status = req.body.status || 'SOLD';
@@ -181,6 +191,10 @@ class AgentPropertyController {
     const { user_id } = req.headers['x-auth-token'];
     const property_id = parseInt(req.params.id, 10);
     let values = [property_id, user_id];
+    console.log(req.headers['x-auth-token'], 'user sold token');
+    console.log(user_id, 'user');
+    console.log(req.params.id, 'user');
+    console.log(typeof req.params.id, 'user');
     const client = await pool.connect();
     try {
       const { rows } = await client.query(getpublicId, values);

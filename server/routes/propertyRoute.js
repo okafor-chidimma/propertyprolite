@@ -1,15 +1,15 @@
 import express from 'express';
 import AgentPropertyController from '../controllers/AgentPropertyController';
 import UserPropertyController from '../controllers/UserPropertyController';
-import validate from '../middlewares/validate';
-import Imagevalidator from '../middlewares/imageValidator';
-import propertyValidator from '../middlewares/propertyValidator';
+// import validate from '../middlewares/validate';
+// import Imagevalidator from '../middlewares/imageValidator';
+// import propertyValidator from '../middlewares/propertyValidator';
 import Authenticator from '../middlewares/Authenticator';
-import uploader from '../config/multer';
+// import uploader from '../config/multer';
 
 const router = express.Router();
-const { upload } = uploader;
-const uploaded = upload.single('image_url');
+// const { upload } = uploader;
+// const uploaded = upload.single('image_url');
 const { isLoggedIn } = Authenticator;
 const {
   createProperty,
@@ -24,29 +24,16 @@ const {
   MarkPropAsFraud,
 } = UserPropertyController;
 
-const {
-  propertyFieldsValidator,
-
-  isAdvFraudulent,
-  propertyIdParamValidator,
-} = propertyValidator;
-
 // for agents
-router.post('/', isLoggedIn, uploaded,
-  Imagevalidator, propertyFieldsValidator,
-  validate, createProperty);
-router.patch('/:id', isLoggedIn,
-  propertyIdParamValidator, UpdateProperty);
-router.patch('/:id/sold', isLoggedIn,
-  propertyIdParamValidator, validate, MarkSoldProperty);
-router.delete('/:id', isLoggedIn,
-  propertyIdParamValidator, validate, DeleteProperty);
+router.post('/', isLoggedIn, createProperty);
+router.patch('/:id', isLoggedIn, UpdateProperty);
+router.patch('/:id/sold', isLoggedIn, MarkSoldProperty);
+router.delete('/:id', isLoggedIn, DeleteProperty);
 
 // for user
 router.get('/', isLoggedIn, GetAllProperties);
-router.get('/:id', isLoggedIn, propertyIdParamValidator, validate, GetProperty);
-router.patch('/:id/fraud', isLoggedIn, propertyIdParamValidator,
-  isAdvFraudulent, validate, MarkPropAsFraud);
+router.get('/:id', isLoggedIn, GetProperty);
+router.patch('/:id/fraud', isLoggedIn, MarkPropAsFraud);
 
 
 export default router;
