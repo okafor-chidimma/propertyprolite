@@ -147,7 +147,7 @@ describe('Agents Property Endpoints', () => {
     });
   });
   describe('PATCH /property/:id', () => {
-    property_id = 7;
+    property_id = 2;
     it('Should Update a property advert', (done) => {
       chai.request(app)
         .patch(`/api/v1/property/${property_id}`)
@@ -220,7 +220,7 @@ describe('Agents Property Endpoints', () => {
   });
   describe('PATCH /property/:id/sold', () => {
     it('Should Mark a property advert as sold', (done) => {
-      property_id = 7;
+      property_id = 2;
       chai.request(app)
         .patch(`/api/v1/property/${property_id}/sold`)
         .set('x-auth-token', AgentToken)
@@ -262,9 +262,25 @@ describe('Agents Property Endpoints', () => {
         });
     });
   });
+  describe('GET /property', () => {
+    it('Should return 403 if user is not an agent', (done) => {
+      property_id = 2;
+      chai.request(app)
+        .patch(`/api/v1/property/${property_id}`)
+        .set('x-auth-token', UserToken)
+        .send(newProperty)
+        .end((err, res) => {
+          res.should.have.status(403);
+          res.body.should.have.property('status').eql('Error');
+          res.body.should.have.property('error');
+          res.body.error.should.be.a('string').eql('Forbidden. Only an Agent can perform this action.');
+          done();
+        });
+    });
+  });
   describe('DELETE /property/:id', () => {
     it('Should delete a property advert', (done) => {
-      property_id = 7;
+      property_id = 2;
       chai.request(app)
         .delete(`/api/v1/property/${property_id}`)
         .set('x-auth-token', AgentToken)
@@ -275,22 +291,6 @@ describe('Agents Property Endpoints', () => {
           res.body.data.should.be.an('object');
           res.body.data.should.have.property('message');
           res.body.data.message.should.be.a('string').eql('Advert Deleted Successfully');
-          done();
-        });
-    });
-  });
-  describe('GET /property', () => {
-    it('Should return 403 if user is not an agent', (done) => {
-      property_id = 7;
-      chai.request(app)
-        .patch(`/api/v1/property/${property_id}`)
-        .set('x-auth-token', UserToken)
-        .send(newProperty)
-        .end((err, res) => {
-          res.should.have.status(403);
-          res.body.should.have.property('status').eql('Error');
-          res.body.should.have.property('error');
-          res.body.error.should.be.a('string').eql('Forbidden. Only an Agent can perform this action.');
           done();
         });
     });

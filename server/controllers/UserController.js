@@ -57,6 +57,7 @@ class UserController {
         return res.status(201).json(successResponse(`Account successfully created.`, newSignup));
       }
     } catch (error) {
+      console.log(error, 'createuser');
       return res.status(500).json(errorResponse(`Internal server error, could not create account at this time!`));
     } finally {
       await client.release();

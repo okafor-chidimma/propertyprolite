@@ -6,7 +6,7 @@ import app from '../index';
 import signInData from '../testData/users';
 
 const {
-  testUser, testUserSignin, corectToken, noPropToken
+  testUser, testUserSignin, testAgent, corectToken, noPropToken
 } = signInData;
 
 chai.use(chaiHttp);
@@ -18,6 +18,36 @@ describe('Auth Endpoints', () => {
   describe('POST /signup', () => {
     it('should create a new user account', (done) => {
       chai.request(app).post('/api/v1/auth/signup').send(testUser).end((err, res) => {
+        res.should.have.status(201);
+        res.body.should.have.property('status').eql('Account successfully created.');
+        res.body.should.have.property('data');
+        res.body.data.should.be.an('object');
+        res.body.data.should.have.property('token');
+        res.body.data.token.should.be.a('string');
+        res.body.data.should.be.an('object');
+        res.body.data.should.have.property('first_name');
+        res.body.data.first_name.should.be.a('string');
+        res.body.data.should.have.property('last_name');
+        res.body.data.last_name.should.be.a('string');
+        res.body.data.should.have.property('email');
+        res.body.data.email.should.be.a('string');
+        res.body.data.should.have.property('user_password');
+        res.body.data.user_password.should.be.a('string');
+        res.body.data.should.have.property('phone_number');
+        res.body.data.phone_number.should.be.a('string');
+        res.body.data.should.have.property('address');
+        res.body.data.address.should.be.a('string');
+        res.body.data.should.have.property('type');
+        res.body.data.type.should.be.a('string');
+        res.body.data.should.have.property('is_admin');
+        res.body.data.is_admin.should.be.a('boolean');
+        res.body.data.should.have.property('id');
+        res.body.data.id.should.be.a('number');
+        done();
+      });
+    });
+    it('should create a new agent account', (done) => {
+      chai.request(app).post('/api/v1/auth/signup').send(testAgent).end((err, res) => {
         res.should.have.status(201);
         res.body.should.have.property('status').eql('Account successfully created.');
         res.body.should.have.property('data');

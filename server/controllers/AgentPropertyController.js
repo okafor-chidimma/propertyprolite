@@ -127,6 +127,7 @@ class AgentPropertyController {
       const updateProp = rowUpdated[0];
       return res.status(200).json(successResponse(`Advert Updated Successfully`, updateProp));
     } catch (error) {
+      console.log(error, 'createproperror');
       return res.status(500).json(errorResponse(`Internal Server Error`));
     } finally {
       await client.release();

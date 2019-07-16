@@ -7,10 +7,12 @@ env:
     - DB_PASSWORD=Jennylove19
     - DBNAME=propertyprolite_testdb
 services:
-- postgresql
+  - postgresql
 before_script:
-- psql -c 'create database propertyprolite_testdb;' -U postgres
-- psql -c "CREATE USER okaforchidimma WITH PASSWORD 'Jennylove19';" -U postgres
+  - psql -c 'create database propertyprolite_testdb;' -U postgres
+  - psql -c "CREATE USER okaforchidimma WITH PASSWORD 'Jennylove19';" -U postgres
+  - npm run migrate
+  - npm run migrate:test
 node_js: 
   - "stable"
 cache:
