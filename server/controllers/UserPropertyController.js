@@ -2,19 +2,16 @@
 import pool from '../database/db';
 import userPropQueries from '../database/queries/userProp';
 import Response from '../helpers/Response';
-
 import properties from '../models/propertyModel';
-import users from '../models/userModel';
 import flaggedProps from '../models/flaggedProperties';
 import auth from '../helpers/Auth';
 
 
 const { verifyToken } = auth;
-const { getSamePropAdvQuery, getAllPropAdvQuery } = userPropQueries;
+const { getSamePropAdvQuery, getAllPropAdvQuery, getPropertyQuery, } = userPropQueries;
 
 const { successResponse, errorResponse } = Response;
 const allProperties = properties;
-const allUsers = users;
 const allflaggedProperties = flaggedProps;
 const flaggedPropsCount = allflaggedProperties.length;
 
@@ -46,32 +43,21 @@ class PropertyController {
   }
 
   static async GetProperty(req, res) {
-    const Prop = [];
-    const id = parseInt(req.params.id, 10);
-    const found = allProperties.some((property) => {
-      return (property.id === id);
-    });
-    if (!found) {
-      return res.status(404).json({
-        status: 'error',
-        error: 'No such property exists',
-      });
+    const client = await pool.connect();
+    try {
+      const { id: property_id } = req.params;
+      const value = [property_id, 'sold'];
+      const { rows } = await client.query(getPropertyQuery, value);
+      if (!rows[0]) {
+        return res.status(404).json(errorResponse(`Advert can not be found!`));
+      }
+      const propertyAdvert = rows[0];
+      return res.status(200).json(successResponse(`Adverts Found`, propertyAdvert));
+    } catch (error) {
+      return res.status(500).json(errorResponse(`Internal server error!`));
+    } finally {
+      await client.release();
     }
-    const singleProperty = allProperties.find((property) => {
-      return (property.id === id);
-    });
-    const userDet = allUsers.find((user) => {
-      return (singleProperty.owner === user.id);
-    });
-    const singleProp = { ...singleProperty };
-    singleProp.ownerEmail = userDet.email;
-    singleProp.ownerPhoneNumber = userDet.phoneNumber;
-    delete singleProp.owner;
-    Prop.push(singleProp);
-    return res.status(200).json({
-      status: 'success',
-      data: singleProp,
-    });
   }
 
   static async MarkPropAsFraud(req, res) {
