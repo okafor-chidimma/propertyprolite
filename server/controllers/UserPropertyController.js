@@ -4,8 +4,7 @@ import userPropQueries from '../database/queries/userProp';
 import Response from '../helpers/Response';
 
 const {
-  getSamePropAdvQuery, getAllPropAdvQuery, getPropertyQuery,
-  getPropFraudQuery, updatePropertyQuery, insertProp
+  getSamePropAdvQuery, getAllPropAdvQuery, getPropertyQuery, getPropFraudQuery, updatePropertyQuery, insertProp
 } = userPropQueries;
 
 const { successResponse, errorResponse } = Response;
