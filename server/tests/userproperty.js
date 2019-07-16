@@ -133,7 +133,7 @@ describe('Users Property Endpoints', () => {
         });
     });
     it('Should Get A single Advert', (done) => {
-      property_id = 8;
+      property_id = 1;
       chai.request(app)
         .get(`/api/v1/property/${property_id}`)
         .set('x-auth-token', UserToken)
@@ -195,7 +195,7 @@ describe('Users Property Endpoints', () => {
   });
   describe('PATCH /property/:id/fraud', () => {
     it('Should mark an advert as fraudulent', (done) => {
-      property_id = 8;
+      property_id = 1;
       chai.request(app)
         .patch(`/api/v1/property/${property_id}/fraud`)
         .set('x-auth-token', UserToken)
@@ -221,7 +221,7 @@ describe('Users Property Endpoints', () => {
         });
     });
     it('Should return 403 if user is not an agent', (done) => {
-      property_id = 8;
+      property_id = 1;
       chai.request(app)
         .patch(`/api/v1/property/${property_id}`)
         .set('x-auth-token', UserToken)
