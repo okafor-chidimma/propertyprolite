@@ -44,6 +44,7 @@ class PropertyController {
       }
       return res.status(200).json(successResponse(`Adverts Found`, rowProps));
     } catch (error) {
+      console.log(error, 'getallprop internal error');
       return res.status(500).json(errorResponse(`Internal server error!`));
     } finally {
       await client.release();
@@ -71,6 +72,7 @@ class PropertyController {
       const propertyAdvert = rows[0];
       return res.status(200).json(successResponse(`Adverts Found`, propertyAdvert));
     } catch (error) {
+      console.log(error, 'getproperty internal error');
       return res.status(500).json(errorResponse(`Internal server error!`));
     } finally {
       await client.release();
@@ -99,7 +101,7 @@ class PropertyController {
       await client.query('COMMIT');
       return res.status(201).json(successResponse(`Advert Flagged Successfully`, rowFlagged[0]));
     } catch (error) {
-      console.log(error, 'error in fraud');
+      console.log(error, 'error in fraudulent property');
       await client.query('ROLLBACK');
       return res.status(500).json(errorResponse(`Internal Server Error!`));
     } finally {

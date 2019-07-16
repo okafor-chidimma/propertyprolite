@@ -57,7 +57,7 @@ class UserController {
         return res.status(201).json(successResponse(`Account successfully created.`, newSignup));
       }
     } catch (error) {
-      console.log(error, 'createuser');
+      console.log(error, 'createuser internal error');
       return res.status(500).json(errorResponse(`Internal server error, could not create account at this time!`));
     } finally {
       await client.release();
@@ -87,6 +87,7 @@ class UserController {
       const newSignin = { token, ...signinDetails };
       return res.status(200).json(successResponse(`User successfully logged in.`, newSignin));
     } catch (error) {
+      console.log(error, 'signup internal error');
       return res.status(500).json(errorResponse(`Internal server error!`));
     } finally {
       await client.release();

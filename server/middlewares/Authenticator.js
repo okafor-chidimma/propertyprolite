@@ -24,7 +24,7 @@ class Authenticator {
       req.headers['x-auth-token'] = verifiedToken;
       return next();
     } catch (error) {
-      console.log(error, 'error');
+      console.log(error, 'error is logged in');
       msg = `Access denied.Unauthorized request. Please Log In`;
       return res.status(401).json(errorResponse(msg));
     }

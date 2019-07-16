@@ -70,6 +70,7 @@ class AgentPropertyController {
       const newProp = rows[0];
       return res.status(201).json(successResponse(`Advert posted Successfully`, newProp));
     } catch (error) {
+      console.log(error, 'creatprop internal error');
       return res.status(500).json(errorResponse(`Internal Server error`));
     } finally {
       await client.release();
@@ -127,7 +128,7 @@ class AgentPropertyController {
       const updateProp = rowUpdated[0];
       return res.status(200).json(successResponse(`Advert Updated Successfully`, updateProp));
     } catch (error) {
-      console.log(error, 'createproperror');
+      console.log(error, 'updateproperror');
       return res.status(500).json(errorResponse(`Internal Server Error`));
     } finally {
       await client.release();
@@ -160,6 +161,7 @@ class AgentPropertyController {
       const updateProp = rowUpdated[0];
       return res.status(200).json(successResponse(`Advert Status Updated Successfully`, updateProp));
     } catch (error) {
+      console.log(error, 'soldprop internal error');
       return res.status(500).json(errorResponse(`Internal Server Error`));
     } finally {
       await client.release();
@@ -191,6 +193,7 @@ class AgentPropertyController {
       const deleteProp = { message: 'Advert Deleted Successfully' };
       return res.status(200).json(successResponse(`success`, deleteProp));
     } catch (error) {
+      console.log(error, 'delete internal error');
       return res.status(500).json(errorResponse(`Internal Server Error`));
     } finally {
       await client.release();
