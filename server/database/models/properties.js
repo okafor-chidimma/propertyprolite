@@ -1,0 +1,20 @@
+const properties = `CREATE TABLE IF NOT EXISTS properties(
+    id SERIAL PRIMARY KEY,
+    owner INTEGER REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    status VARCHAR(50) DEFAULT('Available'),
+    price FLOAT NOT NULL,
+    country VARCHAR(50),
+    state VARCHAR(50) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    address VARCHAR(50) NOT NULL,
+    no_of_rooms INTEGER,
+    type VARCHAR(20) NOT NULL ,
+    fraud BOOLEAN DEFAULT false,
+    adv_desc VARCHAR(100),
+    adv_purpose VARCHAR(50),
+    duration VARCHAR(50),
+    image_url VARCHAR(200) DEFAULT NULL,
+    public_id VARCHAR (200),
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP)`;
+export default properties;
