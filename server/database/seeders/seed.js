@@ -33,9 +33,9 @@ let agentPassword2;
                   'agent', false, '07044332205')`;
   const agent2 = `INSERT INTO users(first_name, last_name, email, 
                 password, address, type, is_admin, phone_number)
-                  VALUES('Ugonna', 'Mma', 'ugonnamma@yahoo.com', 
+                  VALUES('chidimma', 'okafor', 'chidimma.okafor.c@gmail.com', 
                   '${agentPassword2}', 'No 5 Ugonma Street Enugus', 'agent', 
-                  false, '070443328855')`;
+                  true, '07039119707')`;
 
 
   const admin = `INSERT INTO users(first_name, last_name, email, password, 
