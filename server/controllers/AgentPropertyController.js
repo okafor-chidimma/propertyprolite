@@ -10,19 +10,22 @@ import auth from '../helpers/Auth';
 // eslint-disable-next-line no-unused-vars
 import cloudDet from '../config/cloudinary';
 
-const { insertPropertyQuery } = agentPropQueries;
+const { insertPropertyQuery, getpublicId, updateAllProperty } = agentPropQueries;
 
 const { successResponse, errorResponse } = Response;
 
 const { verifyToken } = auth;
 
 const allProperties = properties;
+let result_cloud;
+let result_cloud_url;
+let fileReq;
+let publicId;
 
 
 class AgentPropertyController {
   static async createProperty(req, res) {
     const { user_id } = req.headers['x-auth-token'];
-    let result_cloud; let result_cloud_url; let fileReq; let publicId;
     if (req.file !== undefined) {
       fileReq = req.file.path;
     } else {
@@ -41,9 +44,10 @@ class AgentPropertyController {
     const {
       status: status_input, price: price_input, country: country_input,
       state: state_input, city: city_input, address: address_input,
-      no_of_rooms: room_input, type: type_input, fraud, adv_desc: description_input,
+      no_of_rooms: room_input, type: type_input, adv_desc: description_input,
       adv_purpose: purpose_input, duration: duration_input
     } = req.body;
+    const fraud = req.body.fraud || false;
     const insertPropValues = [user_id, status_input, price_input,
       country_input, state_input, city_input, address_input,
       room_input, fraud, type_input, description_input,
@@ -61,43 +65,52 @@ class AgentPropertyController {
   }
 
   static async UpdateProperty(req, res) {
-    const token = req.headers['x-auth-token'];
-    const verifyTokenAnswer = verifyToken(res, token);
-    const userId = verifyTokenAnswer.id;
-    const id = parseInt(req.params.id, 10);
-    const found = allProperties.some((property) => {
-      return (property.id === id && property.owner === userId);
-    });
-    if (!found) {
-      return res.status(404).json({
-        status: 'error',
-        error: 'No such property exists',
-      });
+    const { user_id } = req.headers['x-auth-token'];
+    if (req.file !== undefined) {
+      fileReq = req.file.path;
+    } else {
+      fileReq = `http://res.cloudinary.com/okafor-chidimma/image/upload/v1562108668/ybxnh9g2jlkiho1ubpq2.jpg`;
     }
-    const updateProperty = req.body;
-    const singleProperty = allProperties.find((property) => {
-      return (property.id === id && property.owner === userId);
-    });
-    const keysUpdate = Object.keys(updateProperty);
-    keysUpdate.forEach((key) => {
-      if (typeof updateProperty[key] === 'string') {
-        updateProperty[key] = updateProperty[key].trim();
+    if (req.file !== undefined) {
+      try {
+        result_cloud = await cloudinary.v2.uploader.upload(fileReq);
+        result_cloud_url = result_cloud.url; publicId = result_cloud.public_id;
+      } catch (error) {
+        return res.status(400).json(errorResponse(`Could not upload Image to cloudinary!`));
       }
-      if (updateProperty[key] !== '') {
-        singleProperty[key] = updateProperty[key];
-      } else {
-        return res.status(400).json({
-          status: 'error',
-          error: `${key} cannot be empty`,
-        });
+    } else {
+      result_cloud_url = fileReq; publicId = 'uuyyytttfdfgf';
+    }
+    const property_id = parseInt(req.params.id, 10);
+    let values = [property_id, user_id];
+    const {
+      status: status_input, price: price_input, country: country_input,
+      state: state_input, city: city_input, address: address_input,
+      no_of_rooms: room_input, type: type_input, adv_desc: description_input,
+      adv_purpose: purpose_input, duration: duration_input,
+    } = req.body;
+    const client = await pool.connect();
+    try {
+      const { rows: selectRow } = await client.query(getpublicId, values);
+      if (!selectRow[0]) {
+        return res.status(404).json(errorResponse(`Advert can not be found!`));
       }
-      return singleProperty;
-    });
-    return res.status(200).json({
-      status: 'success',
-      data: singleProperty,
-    });
+      await cloudinary.v2.uploader.destroy(selectRow[0].public_id);
+      const fraud = req.body.fraud || false;
+      values = [status_input, price_input,
+        country_input, state_input, city_input, address_input,
+        room_input, fraud, type_input, description_input,
+        purpose_input, duration_input, result_cloud_url, publicId, property_id, user_id];
+      const { rows: rowUpdated } = await client.query(updateAllProperty, values);
+      const updateProp = rowUpdated[0];
+      return res.status(200).json(successResponse(`Advert Updated Successfully`, updateProp));
+    } catch (error) {
+      return res.status(500).json(errorResponse(`Internal Server Error`));
+    } finally {
+      await client.release();
+    }
   }
+
 
   static async MarkSoldProperty(req, res) {
     const token = req.headers['x-auth-token'];
