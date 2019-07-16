@@ -10,6 +10,8 @@ class Authenticator {
     let msg;
     try {
       const requestToken = req.headers['x-auth-token'];
+      console.log(req.headers, 'headers from andela');
+      console.log(req.body, 'body from andela');
       console.log(requestToken, 'inside try request from test');
       if (!requestToken) {
         msg = `Access denied.Unauthorized request. Please Log In`;
@@ -31,6 +33,8 @@ class Authenticator {
   }
 
   static async isAgent(req, res, next) {
+    console.log(req.headers, 'agent headers from andela');
+    console.log(req.body, 'agent body from andela');
     let msg;
     const verifiedToken = req.headers['x-auth-token'];
     const { user_type } = verifiedToken;
