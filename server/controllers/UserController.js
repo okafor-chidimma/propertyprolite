@@ -1,27 +1,61 @@
 import users from '../models/userModel';
+/* eslint-disable camelcase */
 import auth from '../helpers/Auth';
 import Passcode from '../helpers/Passcode';
+import pool from '../database/db';
+import authUserQueries from '../database/queries/authUser';
+import Response from '../helpers/Response';
+
+const {
+  checkEmail, insertUserQuery,
+} = authUserQueries;
+
+const { successResponse, errorResponse } = Response;
 
 const { createToken } = auth;
 const { encryptPassword } = Passcode;
+let msg;
 const allUsers = users;
-const userCount = allUsers.length;
+
 
 class UserController {
   static async signUp(req, res) {
-    const newUser = req.body;
-    newUser.id = userCount + 1;
-    newUser.password = await encryptPassword(newUser.password);
-    newUser.type = newUser.type;
-    newUser.is_admin = newUser.is_admin || false;
-    const { id, type } = newUser;
-    const token = createToken({ id, type });
-    allUsers.push(newUser);
-    const newSignup = { token, newUser };
-    return res.header('x-auth-token', token).status(201).json({
-      status: 'success',
-      data: newSignup,
-    });
+    const client = await pool.connect();
+    try {
+      const {
+        first_name: first_name_input, last_name: last_name_input,
+        address: address_input, email: email_input,
+        password: user_password, type: user_role,
+        is_admin: admin_input, phone_number: phone_input,
+      } = req.body;
+      const checkValue = [email_input];
+      const { rows: checkExistingRows } = await client.query(checkEmail, checkValue);
+      if (checkExistingRows[0]) {
+        msg = `Email already in Use!`;
+        return res.status(409).json(errorResponse(msg));
+      }
+      const secure_password = await encryptPassword(user_password);
+      const values = [
+        first_name_input, last_name_input, address_input,
+        email_input, secure_password, user_role,
+        admin_input, phone_input,
+      ];
+      const { rows } = await client.query(insertUserQuery, values);
+      if (rows[0]) {
+        const { id: user_id, type: user_type } = rows[0];
+        const token = createToken({ user_id, user_type });
+        const signupDet = rows[0];
+        const signupDetails = { ...signupDet, user_password };
+        const newSignup = { token, ...signupDetails };
+        msg = `Account successfully created.`;
+        return res.status(201).json(successResponse(msg, newSignup));
+      }
+    } catch (error) {
+      msg = `Internal server error, could not create account at this time!`;
+      return res.status(500).json(errorResponse(msg));
+    } finally {
+      await client.release();
+    }
   }
   // for signin
 

@@ -32,7 +32,7 @@ app.use('/api/v1/property', propertyRoute);
 
 app.get('/', (req, res) => {
   console.log(req.headers);
-  return res.status(200).json("Property Pro Lite Api");
+  return res.status(200).json('Property Pro Lite Api');
 });
 
 app.listen(PORT, () => {
