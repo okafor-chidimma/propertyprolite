@@ -1,56 +1,63 @@
 /* eslint-disable camelcase */
 /* eslint-disable-next-line no-unused-vars */
 import cloudinary from 'cloudinary';
+import pool from '../database/db';
+import agentPropQueries from '../database/queries/agentProp';
+import Response from '../helpers/Response';
 import properties from '../models/propertyModel';
 
 import auth from '../helpers/Auth';
-
 // eslint-disable-next-line no-unused-vars
 import cloudDet from '../config/cloudinary';
+
+const { insertPropertyQuery } = agentPropQueries;
+
+const { successResponse, errorResponse } = Response;
 
 const { verifyToken } = auth;
 
 const allProperties = properties;
-const propertyCount = allProperties.length;
+
 
 class AgentPropertyController {
   static async createProperty(req, res) {
-    let resultCloud;
-    let fileReq;
+    const { user_id } = req.headers['x-auth-token'];
+    let result_cloud; let result_cloud_url; let fileReq; let publicId;
     if (req.file !== undefined) {
       fileReq = req.file.path;
     } else {
-      fileReq = 'http://res.cloudinary.com/okafor-chidimma/image/upload/v1562108668/ybxnh9g2jlkiho1ubpq2.jpg';
+      fileReq = `http://res.cloudinary.com/okafor-chidimma/image/upload/v1562108668/ybxnh9g2jlkiho1ubpq2.jpg`;
     }
-    const token = req.headers['x-auth-token'];
-    const verifyTokenAnswer = verifyToken(res, token);
-    const userId = verifyTokenAnswer.id;
-    const newProperty = {};
-    newProperty.id = propertyCount + 1;
-    newProperty.owner = userId;
-    const bodyProperty = req.body;
-    const keysNew = Object.keys(bodyProperty);
-    keysNew.forEach((key) => {
-      newProperty[key] = bodyProperty[key];
-    });
-    newProperty.created_on = new Date();
-    allProperties.push(newProperty);
-    let resultCloudUrl;
     if (req.file !== undefined) {
       try {
-        resultCloud = await cloudinary.v2.uploader.upload(fileReq);
-        resultCloudUrl = resultCloud.url;
+        result_cloud = await cloudinary.v2.uploader.upload(fileReq);
+        result_cloud_url = result_cloud.url; publicId = result_cloud.public_id;
       } catch (error) {
-        console.log(error, 'error');
+        return res.status(400).json(errorResponse(`Could not upload Image to cloudinary!`));
       }
     } else {
-      resultCloudUrl = fileReq;
+      result_cloud_url = fileReq; publicId = 'uuyyytttfdfgf';
     }
-    newProperty.image_url = resultCloudUrl;
-    return res.status(201).json({
-      status: 'success',
-      data: newProperty,
-    });
+    const {
+      status: status_input, price: price_input, country: country_input,
+      state: state_input, city: city_input, address: address_input,
+      no_of_rooms: room_input, type: type_input, fraud, adv_desc: description_input,
+      adv_purpose: purpose_input, duration: duration_input
+    } = req.body;
+    const insertPropValues = [user_id, status_input, price_input,
+      country_input, state_input, city_input, address_input,
+      room_input, fraud, type_input, description_input,
+      purpose_input, duration_input, result_cloud_url, publicId];
+    const client = await pool.connect();
+    try {
+      const { rows } = await client.query(insertPropertyQuery, insertPropValues);
+      const newProp = rows[0];
+      return res.status(201).json(successResponse(`Advert posted Successfully`, newProp));
+    } catch (error) {
+      return res.status(500).json(errorResponse(`Internal Server error`));
+    } finally {
+      await client.release();
+    }
   }
 
   static async UpdateProperty(req, res) {
