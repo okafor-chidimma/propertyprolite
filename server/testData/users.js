@@ -1,11 +1,11 @@
 const testUser = {
-  first_name: "Samuel",
-  last_name: "Egwueji",
-  email: "samuelegwuejyi@gmail.com",
-  password: "iamasonofgod",
-  phoneNumber: "0985590543",
-  address: "no 4 abaji street",
-  type: "user",
+  first_name: 'Samuel',
+  last_name: 'Egwueji',
+  email: 'samuelegwuejyi@gmail.com',
+  password: 'iamasonofgod',
+  phoneNumber: '0985590543',
+  address: 'no 4 abaji street',
+  type: 'user',
   is_admin: false,
 };
 const testAgentSignin = {

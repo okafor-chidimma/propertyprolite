@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+/* eslint-disable-next-line no-unused-vars */
 import cloudinary from 'cloudinary';
 import properties from '../models/propertyModel';
 
@@ -75,7 +76,7 @@ class AgentPropertyController {
       if (typeof updateProperty[key] === 'string') {
         updateProperty[key] = updateProperty[key].trim();
       }
-      if (updateProperty[key] !== "") {
+      if (updateProperty[key] !== '') {
         singleProperty[key] = updateProperty[key];
       } else {
         return res.status(400).json({
@@ -130,7 +131,7 @@ class AgentPropertyController {
         error: 'No such property exists',
       });
     }
-    const deletedProp = allProperties.find((property, index) => {
+    const deletedProp = allProperties.find((property) => {
       return (property.id === id && property.owner === userId);
     });
     const index = allProperties.indexOf(deletedProp);
