@@ -20,7 +20,7 @@ const flaggedPropsCount = allflaggedProperties.length;
 
 class PropertyController {
   static async GetAllProperties(req, res) {
-    let rowProp;
+    let rowProps;
     const { query } = req;
     const client = await pool.connect();
     try {
@@ -28,16 +28,16 @@ class PropertyController {
         const { type } = query;
         const values = [type];
         const { rows } = await client.query(getSamePropAdvQuery, values);
-        rowProp = rows;
+        rowProps = rows;
       } else {
         const value = ['sold'];
         const { rows } = await client.query(getAllPropAdvQuery, value);
-        rowProp = rows;
+        rowProps = rows;
       }
-      if (!rowProp[0]) {
+      if (!rowProps[0]) {
         return res.status(404).json(errorResponse(`Advert can not be found!`));
       }
-      return res.status(200).json(successResponse(`Adverts Found`, rowProp));
+      return res.status(200).json(successResponse(`Adverts Found`, rowProps));
     } catch (error) {
       return res.status(500).json(errorResponse(`Internal server error!`));
     } finally {
