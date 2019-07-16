@@ -111,6 +111,11 @@ class UserController {
         .json(errorResponse('Internal server error!'));
     }
   }
+
+  static async showApiVersioning(req, res) {
+    return res.status(200)
+      .json(messageResponse('Api Version 1'));
+  }
 }
 
 export default UserController;

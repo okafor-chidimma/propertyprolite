@@ -28,11 +28,8 @@ app.use(favicon(path.join(__dirname, 'public', 'companylogo.ico')));
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use('/api/v1/auth', userRoute);
 app.use('/api/v1/property', propertyRoute);
+app.use('/api/v1', userRoute);
 
-app.get('/api/v1', (req, res) => {
-  console.log(req.headers);
-  return res.status(200).json('Property Pro Lite Api Version 1');
-});
 app.get('/', (req, res) => {
   console.log(req.headers);
   return res.status(200).json('Property Pro Lite Api');
