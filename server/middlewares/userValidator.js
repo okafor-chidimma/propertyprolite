@@ -1,86 +1,89 @@
-import { body } from 'express-validator/check';
-import UserModel from '../models/userModel';
 
-const allUsers = UserModel;
+import { body, check } from 'express-validator/check';
+import { sanitizeBody } from 'express-validator/filter';
 
 const userValidator = {
-  signupValidator: [
-    body('first_name')
+  tokenValidator: [
+    body('token')
+      .trim()
       .exists({ checkFalsy: true })
-      .withMessage('Firstname is required!')
-      .trim(),
-    body('last_name')
-      .exists({ checkFalsy: true })
-      .withMessage('Lastname is required!')
-      .trim(),
-    body('email')
-      .exists({ checkFalsy: true })
-      .withMessage('Email is required!')
-      .isEmail()
-      .withMessage('Invalid email address!')
-      .trim(),
+      .withMessage('Token is required.')
+      .matches(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/)
+      .withMessage('Invalid token.'),
+  ],
+  passwordValidator: [
     body('password')
+      .trim()
       .exists({ checkFalsy: true })
-      .withMessage('Password is required!')
+      .withMessage('Password is required.')
       .isString()
-      .withMessage('Password must be string!')
-      .trim(),
-    body('phoneNumber')
+      .withMessage('Must be a string'),
+  ],
+  emailValidator: [
+    check('email')
+      .trim()
+      .exists({ checkFalsy: true })
+      .withMessage('Email is required.')
+      .isEmail()
+      .normalizeEmail()
+      .withMessage('Invalid email address.'),
+  ],
+  nameValidator: [
+    body('first_name')
+      .trim()
+      .exists({ checkFalsy: true })
+      .withMessage('First name is required.')
+      .isString()
+      .withMessage('Invalid first name.'),
+    sanitizeBody('first_name').customSanitizer((value) => {
+      const titleCaseValue = value.toUpperCase();
+      return titleCaseValue;
+    }),
+    body('last_name')
+      .trim()
+      .exists({ checkFalsy: true })
+      .withMessage('Last name is required.')
+      .isString()
+      .withMessage('Invalid last name.'),
+    sanitizeBody('last_name').customSanitizer((value) => {
+      const titleCaseValue = value.toUpperCase();
+      return titleCaseValue;
+    }),
+  ],
+  phoneNumberValidator: [
+    body('phone_number')
+      .trim()
       .exists({ checkFalsy: true })
       .withMessage('Phone number is required!')
       .isString()
-      .trim(),
+      .withMessage('Invalid Phone Number.')
+      .isLength({ max: 11 })
+      .withMessage('Phone Number must not exceed 20 characters.'),
+  ],
+  addressValidator: [
     body('address')
+      .trim()
       .exists({ checkFalsy: true })
       .withMessage('Address is required!')
       .isString()
-      .trim(),
+      .withMessage('Invalid Phone Number.'),
+  ],
+  typeValidator: [
     body('type')
+      .trim()
       .exists({ checkFalsy: true })
       .withMessage('User Type is required!')
       .isIn(['admin', 'agent', 'user'])
-      .withMessage('Wrong user type!')
-      .trim(),
+      .withMessage('Wrong user type!'),
+  ],
+  isAdminValidator: [
     body('is_admin')
+      .trim()
       .exists()
       .withMessage('Is Admin is required!')
       .isBoolean()
-      .withMessage('Wrong Data type!')
-      .trim(),
-  ],
-  signinValidator: [
-    body('email')
-      .exists({ checkFalsy: true })
-      .withMessage('Email is required!')
-      .isEmail()
-      .withMessage('Invalid email address!')
-      .trim(),
-    body('password')
-      .exists({ checkFalsy: true })
-      .withMessage('Password is required!')
-      .isString()
-      .trim(),
-  ],
-  duplicateValidator: [
-    body('email')
-      .custom((email) => {
-        const isNotDuplicate = allUsers.find((user) => { return user.email === email; });
-        return !isNotDuplicate;
-      })
-      .withMessage('This email is already in use, Try another one!'),
-  ],
-  mismatchCredentials: [
-    body('email')
-      .custom((email, { req }) => {
-        const isEmailPassword = allUsers.some((user) => {
-          return (user.password === req.body.password && user.email === email);
-        });
-        return isEmailPassword;
-      })
-      .withMessage('Wrong Password and Email combination'),
-
+      .withMessage('Wrong Data type!'),
   ],
 };
-
 
 export default userValidator;
