@@ -56,13 +56,14 @@ class AgentPropertyController {
       result_cloud_url = fileReq; publicId = 'uuyyytttfdfgf';
     }
     const {
-      status: status_input, price: price_input, country: country_input,
+      price: price_input, country: country_input,
       state: state_input, city: city_input, address: address_input,
       no_of_rooms: room_input, type: type_input, adv_desc: description_input,
       adv_purpose: purpose_input, duration: duration_input
     } = req.body;
     const fraud = req.body.fraud || false;
-    const insertPropValues = [user_id, status_input, price_input,
+    const status = req.body.status || 'AVAILABLE';
+    const insertPropValues = [user_id, status, price_input,
       country_input, state_input, city_input, address_input,
       room_input, fraud, type_input, description_input,
       purpose_input, duration_input, result_cloud_url, publicId];
