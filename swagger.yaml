@@ -1,4 +1,4 @@
-swagger: "2.0"
+swagger: '2.0'
 info:
   version: "1.0.0"
   title: PROPERTY PRO LITE
@@ -6,13 +6,17 @@ info:
   contact: 
     email: "chidimma.okafor.c@gmail.com"
 # during dev, should point to your local machine
-host: 127.0.0.1:6890
+securityDefinitions: 
+  Bearer: 
+    type: apiKey
+    name: x-auth-token
+    in: header
+host: "propertyprolitechidimma-okafor.herokuapp.com"
 # basePath prefixes all resource paths 
 basePath: /api/v1
 # 
 schemes:
   # tip: remove http to make production-grade
-  - http
   - https
 # format of bodies a client can send (Content-Type)
 consumes:
@@ -36,7 +40,7 @@ paths:
         - Users
       operationId: AuthSignupPost
       description: Registers a new User
-      summary: 127.0.0.1:6890/api/v1/auth/signup
+      summary: propertyprolitechidimma-okafor.herokuapp.com/api/v1/auth/signup
       deprecated: false
       produces:
       - application/json
@@ -98,6 +102,10 @@ paths:
           description: Bad Request
           schema:
             $ref: "#/definitions/ErrorResponse"
+        "409":
+          description: The email is linked to an existing account
+          schema:
+            $ref: "#/definitions/ErrorResponse"
         "500":
           description: Internal Server Error
           schema:
@@ -107,11 +115,12 @@ paths:
     x-swagger-router-controller: UserPropertyController
     post:
       description: user can login with proper params
-      summary: 127.0.0.1:6890/api/v1/auth/signin
+      summary: propertyprolitechidimma-okafor.herokuapp.com/api/v1/auth/signin
       tags:
         - Users
       operationId: AuthSignInPost
       deprecated: false
+      
       produces:
       - application/json
       consumes:
@@ -151,11 +160,11 @@ paths:
     x-swagger-router-controller: AgentPropertyController
     post:
       description: Agent Can Post an advert when logged in
-      summary: 127.0.0.1:6890/api/v1/property/agent
+      summary: propertyprolitechidimma-okafor.herokuapp.com/api/v1/property/agent
       tags:
         - Property
       operationId: AgentPropertyPost
-      deprecated: false
+      deprecated: false        
       produces:
       - application/json
       consumes:
@@ -246,17 +255,22 @@ paths:
           description: Bad Request
           schema:
             $ref: "#/definitions/ErrorResponse"
+        "403":
+          description: Forbidden
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        
         "500":
           description: Internal Server Error
           schema:
             $ref: "#/definitions/ErrorResponse"
     get: 
       description: Agent Can get all his/her adverts when logged in
-      summary: 127.0.0.1:6890/api/v1/property/agent
+      summary: propertyprolitechidimma-okafor.herokuapp.com/api/v1/property/agent
       tags:
         - Property
       operationId: AgentPropertyGet
-      deprecated: false
+      deprecated: false  
       produces:
       - application/json
       parameters:
@@ -270,6 +284,10 @@ paths:
           description: Success
           schema:
             $ref: "#/definitions/PropertyResponse"
+        "403":
+          description: Forbidden
+          schema:
+            $ref: "#/definitions/ErrorResponse"
         "404":
           description: Page Not Found
           schema:
@@ -284,11 +302,11 @@ paths:
     # our controller name
     x-swagger-router-controller: AgentPropertyCOntroller
     get:
-      summary: 127.0.0.1:6890/api/v1/property/agent/{id}
+      summary: propertyprolitechidimma-okafor.herokuapp.com/api/v1/property/agent/{id}
       tags:
         - Property
       operationId: AgentPropertyGetOne
-      description: get an agents advert
+      description: get an agents advert  
       # define the type of response for Success "200" and Error
       parameters:
         - name: id
@@ -301,6 +319,10 @@ paths:
           description: Success
           schema:
             $ref: "#/definitions/PropertyResponse"
+        "403":
+          description: Forbidden
+          schema:
+            $ref: "#/definitions/ErrorResponse"
         "404":
           description: Page Not Found
           schema:
@@ -310,7 +332,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
     patch:
-      summary: 127.0.0.1:6890/api/v1/property/agent/{id}
+      summary: propertyprolitechidimma-okafor.herokuapp.com/api/v1/property/agent/{id}
       tags:
         - Property
       operationId: AgentPropertyUpdate
@@ -411,6 +433,10 @@ paths:
             description: Bad Request
             schema:
               $ref: "#/definitions/ErrorResponse"
+          "403":
+            description: Forbidden
+            schema:
+              $ref: "#/definitions/ErrorResponse"
           "404":
             description: Page Not Found
             schema:
@@ -421,7 +447,7 @@ paths:
               $ref: "#/definitions/ErrorResponse"
           
     delete:
-      summary: 127.0.0.1:6890/api/v1/property/agent/{id}
+      summary: propertyprolitechidimma-okafor.herokuapp.com/api/v1/property/agent/{id}
       tags:
         - Property
       operationId: AgentPropertyDelete
@@ -438,6 +464,10 @@ paths:
           description: Success
           schema:
             $ref: "#/definitions/DeletePropertyResponse"
+        "403":
+          description: Forbidden
+          schema:
+            $ref: "#/definitions/ErrorResponse"
         "404":
           description: Page Not Found
           schema:
@@ -451,7 +481,7 @@ paths:
     # our controller name
     x-swagger-router-controller: AgentPropertyCOntroller
     patch:
-      summary: 127.0.0.1:6890/api/v1/property/agent/{id}/sold
+      summary: propertyprolitechidimma-okafor.herokuapp.com/api/v1/property/agent/{id}/sold
       tags:
         - Property
       operationId: AgentPropertyMarkSold
@@ -482,6 +512,11 @@ paths:
           description: Bad Request
           schema:
             $ref: "#/definitions/ErrorResponse"
+        "403":
+          description: Forbidden
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        
         "404":
           description: Page Not found
           schema:
@@ -496,11 +531,11 @@ paths:
     # our controller name
     x-swagger-router-controller: UserPropertyController
     get:
-      summary: 127.0.0.1:6890/api/v1/property
+      summary: propertyprolitechidimma-okafor.herokuapp.com/api/v1/property
       tags:
         - Property
       operationId: PropertyGetAll
-      description: Get all placed adverts
+      description: Get all placed adverts or filter by type and number of rooms
       deprecated: false
       # define the type of response for Success "200" and Error
       parameters:
@@ -532,7 +567,7 @@ paths:
     # our controller name
     x-swagger-router-controller: UserPropertyController
     get:
-      summary: 127.0.0.1:6890/api/v1/property/{id}
+      summary: propertyprolitechidimma-okafor.herokuapp.com/api/v1/property/{id}
       tags:
         - Property
       operationId: PropertyGetOne
@@ -565,7 +600,7 @@ paths:
     # our controller name
     x-swagger-router-controller: UserPropertyController
     patch:
-      summary: 127.0.0.1:6890/api/v1/property/{id}/fraud
+      summary: propertyprolitechidimma-okafor.herokuapp.com/api/v1/property/{id}/fraud
       tags:
         - Property
       operationId: UserPropertyMarkFraud
@@ -609,7 +644,10 @@ paths:
           description: Bad Request
           schema:
             $ref: "#/definitions/ErrorResponse"
-            
+        "403":
+          description: Forbidden
+          schema:
+            $ref: "#/definitions/ErrorResponse"  
         "404":
           description: Page Not Found
           schema:
@@ -619,9 +657,6 @@ paths:
           description: Internal Server Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-
-  /swagger:
-    x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
 definitions:
   # GET /movie successful response
