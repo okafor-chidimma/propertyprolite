@@ -10,7 +10,7 @@ class Authenticator {
     let msg;
     try {
       const requestHeader = req.headers.authorization;
-      const requestHeaderArray = requestHeader.split(requestHeader);
+      const requestHeaderArray = requestHeader.split(' ');
       const requestToken = requestHeaderArray[1];
       console.log(req.headers, 'headers from andela');
       console.log(req.body, 'body from andela');
