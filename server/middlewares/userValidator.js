@@ -57,8 +57,6 @@ const userValidator = {
       .withMessage('Phone number is required!')
       .isString()
       .withMessage('Invalid Phone Number.')
-      .isLength({ max: 11 })
-      .withMessage('Phone Number must not exceed 20 characters.'),
   ],
   addressValidator: [
     body('address')
@@ -73,7 +71,7 @@ const userValidator = {
       .trim()
       .exists({ checkFalsy: true })
       .withMessage('User Type is required!')
-      .isIn(['admin', 'agent', 'user'])
+      .isString()
       .withMessage('Wrong user type!'),
   ],
   isAdminValidator: [
