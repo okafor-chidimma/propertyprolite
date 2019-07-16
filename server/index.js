@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(favicon(path.join(__dirname, 'public', 'companylogo.ico')));
 
-app.use('/api-document', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use('/api/v1/auth', userRoute);
 app.use('/api/v1/property', propertyRoute);
 
