@@ -1,4 +1,3 @@
-import users from '../models/userModel';
 /* eslint-disable camelcase */
 import auth from '../helpers/Auth';
 import Passcode from '../helpers/Passcode';
@@ -6,19 +5,28 @@ import pool from '../database/db';
 import authUserQueries from '../database/queries/authUser';
 import Response from '../helpers/Response';
 
-const {
-  checkEmail, insertUserQuery,
-} = authUserQueries;
+const { checkEmail, insertUserQuery, signIn } = authUserQueries;
 
-const { successResponse, errorResponse } = Response;
+const { successResponse, messageResponse, errorResponse } = Response;
 
-const { createToken } = auth;
-const { encryptPassword } = Passcode;
+const { createToken, verifyToken } = auth;
+
+const { encryptPassword, verifyPassword } = Passcode;
+
 let msg;
-const allUsers = users;
-
 
 class UserController {
+  /**
+   * @description Creates a new user account
+   * @static
+   * @async
+   *
+   * @param {object} req - create new user request object
+   * @param {object} res - create new user response object
+   *
+   * @returns
+   * @memberof UserController
+   */
   static async signUp(req, res) {
     const client = await pool.connect();
     try {
@@ -31,8 +39,7 @@ class UserController {
       const checkValue = [email_input];
       const { rows: checkExistingRows } = await client.query(checkEmail, checkValue);
       if (checkExistingRows[0]) {
-        msg = `Email already in Use!`;
-        return res.status(409).json(errorResponse(msg));
+        return res.status(409).json(errorResponse(`Email already in Use!`));
       }
       const secure_password = await encryptPassword(user_password);
       const values = [
@@ -47,12 +54,10 @@ class UserController {
         const signupDet = rows[0];
         const signupDetails = { ...signupDet, user_password };
         const newSignup = { token, ...signupDetails };
-        msg = `Account successfully created.`;
-        return res.status(201).json(successResponse(msg, newSignup));
+        return res.status(201).json(successResponse(`Account successfully created.`, newSignup));
       }
     } catch (error) {
-      msg = `Internal server error, could not create account at this time!`;
-      return res.status(500).json(errorResponse(msg));
+      return res.status(500).json(errorResponse(`Internal server error, could not create account at this time!`));
     } finally {
       await client.release();
     }
@@ -60,17 +65,50 @@ class UserController {
   // for signin
 
   static async signIn(req, res) {
-    const { email } = req.body;
-    const singleUser = allUsers.find((user) => {
-      return user.email === email;
-    });
-    const { id, type } = singleUser;
-    const token = createToken({ id, type });
-    const newSignin = { token, singleUser };
-    return res.header('x-auth-token', token).status(200).json({
-      status: 'success',
-      data: newSignin,
-    });
+    const client = await pool.connect();
+    try {
+      msg = `Email or password incorrect!`;
+      const { email: email_input, password: password_input } = req.body;
+      const values = [email_input];
+      const { rows } = await client.query(signIn, values);
+      if (!rows[0]) {
+        return res.status(400).json(errorResponse(msg));
+      }
+      const {
+        id: user_id, password: user_password, type: user_type,
+      } = rows[0];
+      const isVerified = await verifyPassword(password_input, user_password);
+      if (!isVerified) {
+        return res.status(400).json(errorResponse(msg));
+      }
+      const token = createToken({ user_id, user_type });
+      const { password, ...signinDetails } = rows[0];
+      const newSignin = { token, ...signinDetails };
+      return res.status(200).json(successResponse(`User successfully logged in.`, newSignin));
+    } catch (error) {
+      return res.status(500).json(errorResponse(`Internal server error!`));
+    } finally {
+      await client.release();
+    }
+  }
+
+  static async validateToken(req, res) {
+    try {
+      msg = 'Access denied. Invalid user token.';
+      const { token } = req.body;
+      const validToken = await verifyToken(token);
+      if (!validToken) {
+        return res.status(401).json(errorResponse(msg));
+      }
+      return res.status(200).json(messageResponse('Token validation successful.'));
+    } catch (error) {
+      const { name, message } = error;
+      if (name === 'JsonWebTokenError' && message === 'invalid signature') {
+        return res.status(401).json(errorResponse(msg));
+      }
+      return res.status(500)
+        .json(errorResponse('Internal server error!'));
+    }
   }
 }
 
