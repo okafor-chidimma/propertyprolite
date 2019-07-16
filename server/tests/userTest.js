@@ -5,7 +5,9 @@ import chaiHttp from 'chai-http';
 import app from '../index';
 import signInData from '../testData/users';
 
-const { testUser, testUserSignin } = signInData;
+const {
+  testUser, testUserSignin, corectToken, noPropToken
+} = signInData;
 
 chai.use(chaiHttp);
 chai.should();
@@ -17,49 +19,48 @@ describe('Auth Endpoints', () => {
     it('should create a new user account', (done) => {
       chai.request(app).post('/api/v1/auth/signup').send(testUser).end((err, res) => {
         res.should.have.status(201);
-        res.body.should.have.property('status').eql('success');
+        res.body.should.have.property('status').eql('Account successfully created.');
         res.body.should.have.property('data');
         res.body.data.should.be.an('object');
         res.body.data.should.have.property('token');
         res.body.data.token.should.be.a('string');
-        res.body.data.should.have.property('newUser');
-        res.body.data.newUser.should.be.an('object');
-        res.body.data.newUser.should.have.property('first_name');
-        res.body.data.newUser.first_name.should.be.a('string');
-        res.body.data.newUser.should.have.property('last_name');
-        res.body.data.newUser.last_name.should.be.a('string');
-        res.body.data.newUser.should.have.property('email');
-        res.body.data.newUser.email.should.be.a('string');
-        res.body.data.newUser.should.have.property('password');
-        res.body.data.newUser.password.should.be.a('string');
-        res.body.data.newUser.should.have.property('phoneNumber');
-        res.body.data.newUser.phoneNumber.should.be.a('string');
-        res.body.data.newUser.should.have.property('address');
-        res.body.data.newUser.address.should.be.a('string');
-        res.body.data.newUser.should.have.property('type');
-        res.body.data.newUser.type.should.be.a('string');
-        res.body.data.newUser.should.have.property('is_admin');
-        res.body.data.newUser.is_admin.should.be.a('string');
-        res.body.data.newUser.should.have.property('id');
-        res.body.data.newUser.id.should.be.a('number');
+        res.body.data.should.be.an('object');
+        res.body.data.should.have.property('first_name');
+        res.body.data.first_name.should.be.a('string');
+        res.body.data.should.have.property('last_name');
+        res.body.data.last_name.should.be.a('string');
+        res.body.data.should.have.property('email');
+        res.body.data.email.should.be.a('string');
+        res.body.data.should.have.property('user_password');
+        res.body.data.user_password.should.be.a('string');
+        res.body.data.should.have.property('phone_number');
+        res.body.data.phone_number.should.be.a('string');
+        res.body.data.should.have.property('address');
+        res.body.data.address.should.be.a('string');
+        res.body.data.should.have.property('type');
+        res.body.data.type.should.be.a('string');
+        res.body.data.should.have.property('is_admin');
+        res.body.data.is_admin.should.be.a('boolean');
+        res.body.data.should.have.property('id');
+        res.body.data.id.should.be.a('number');
         done();
       });
     });
-    it('should return 400 error if firstname is empty', (done) => {
+    it('should return 400 error if first_name is empty', (done) => {
       const { first_name, ...partialUserDetails } = testUser;
       chai.request(app).post('/api/v1/auth/signup').send(partialUserDetails).end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('status').eql('error');
-        res.body.should.have.property('error').eql('Firstname is required!');
+        res.body.should.have.property('error').eql('First name is required.');
         done();
       });
     });
-    it('should return 400 error if lastname is empty', (done) => {
+    it('should return 400 error if last_name is empty', (done) => {
       const { last_name, ...partialUserDetails } = testUser;
       chai.request(app).post('/api/v1/auth/signup').send(partialUserDetails).end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('status').eql('error');
-        res.body.should.have.property('error').eql('Lastname is required!');
+        res.body.should.have.property('error').eql('Last name is required.');
         done();
       });
     });
@@ -68,7 +69,7 @@ describe('Auth Endpoints', () => {
       chai.request(app).post('/api/v1/auth/signup').send(partialUserDetails).end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('status').eql('error');
-        res.body.should.have.property('error').eql('Email is required!');
+        res.body.should.have.property('error').eql('Email is required.');
         done();
       });
     });
@@ -77,12 +78,12 @@ describe('Auth Endpoints', () => {
       chai.request(app).post('/api/v1/auth/signup').send(partialUserDetails).end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('status').eql('error');
-        res.body.should.have.property('error').eql('Password is required!');
+        res.body.should.have.property('error').eql('Password is required.');
         done();
       });
     });
     it('should return 400 error if phone number is empty', (done) => {
-      const { phoneNumber, ...partialUserDetails } = testUser;
+      const { phone_number, ...partialUserDetails } = testUser;
       chai.request(app).post('/api/v1/auth/signup').send(partialUserDetails).end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('status').eql('error');
@@ -104,7 +105,7 @@ describe('Auth Endpoints', () => {
       chai.request(app).post('/api/v1/auth/signup').send(partialUserDetails).end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('status').eql('error');
-        res.body.should.have.property('error').eql('Is Admin is required!');
+        res.body.should.have.property('error').eql('Wrong Data type!');
         done();
       });
     });
@@ -122,29 +123,27 @@ describe('Auth Endpoints', () => {
     it('should login a user', (done) => {
       chai.request(app).post('/api/v1/auth/signin').send(testUserSignin).end((err, res) => {
         res.should.have.status(200);
-        res.body.should.have.property('status').eql('success');
+        res.body.should.have.property('status').eql('User successfully logged in.');
         res.body.should.have.property('data');
         res.body.data.should.be.an('object');
         res.body.data.should.have.property('token');
         res.body.data.token.should.be.a('string');
-        res.body.data.should.have.property('singleUser');
-        res.body.data.singleUser.should.be.an('object');
-        res.body.data.singleUser.should.have.property('first_name');
-        res.body.data.singleUser.first_name.should.be.a('string');
-        res.body.data.singleUser.should.have.property('last_name');
-        res.body.data.singleUser.last_name.should.be.a('string');
-        res.body.data.singleUser.should.have.property('email');
-        res.body.data.singleUser.email.should.be.a('string');
-        res.body.data.singleUser.should.have.property('id');
-        res.body.data.singleUser.id.should.be.an('number');
-        res.body.data.singleUser.should.have.property('address');
-        res.body.data.singleUser.address.should.be.a('string');
-        res.body.data.singleUser.should.have.property('phoneNumber');
-        res.body.data.singleUser.phoneNumber.should.be.a('string');
-        res.body.data.singleUser.should.have.property('type');
-        res.body.data.singleUser.type.should.be.a('string');
-        res.body.data.singleUser.should.have.property('is_admin');
-        res.body.data.singleUser.is_admin.should.be.a('boolean');
+        res.body.data.should.have.property('first_name');
+        res.body.data.first_name.should.be.a('string');
+        res.body.data.should.have.property('last_name');
+        res.body.data.last_name.should.be.a('string');
+        res.body.data.should.have.property('email');
+        res.body.data.email.should.be.a('string');
+        res.body.data.should.have.property('id');
+        res.body.data.id.should.be.an('number');
+        res.body.data.should.have.property('address');
+        res.body.data.address.should.be.a('string');
+        res.body.data.should.have.property('phone_number');
+        res.body.data.phone_number.should.be.a('string');
+        res.body.data.should.have.property('type');
+        res.body.data.type.should.be.a('string');
+        res.body.data.should.have.property('is_admin');
+        res.body.data.is_admin.should.be.a('boolean');
         done();
       });
     });
@@ -153,7 +152,7 @@ describe('Auth Endpoints', () => {
       chai.request(app).post('/api/v1/auth/signin').send({ password: PasswordTestSigin }).end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('status').eql('error');
-        res.body.should.have.property('error').eql('Email is required!');
+        res.body.should.have.property('error').eql('Email is required.');
         done();
       });
     });
@@ -162,9 +161,62 @@ describe('Auth Endpoints', () => {
       chai.request(app).post('/api/v1/auth/signin').send({ email: EmailTestSignin }).end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('status').eql('error');
-        res.body.should.have.property('error').eql('Password is required!');
+        res.body.should.have.property('error').eql('Password is required.');
         done();
       });
+    });
+    it('should return 400 error if email is incorrect', (done) => {
+      chai.request(app).post('/api/v1/auth/signin')
+        .send({ email: 'samuelegwuej3yi@gmail.cm', password: 'iamasonofgod', })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.have.property('error');
+          res.body.error.should.eql('Email or password incorrect!');
+          done();
+        });
+    });
+
+    it('should return 400 error if password is incorrect', (done) => {
+      chai.request(app).post('/api/v1/auth/signin')
+        .send({ email: 'samuelegwuej3yi@gmail.com', password: 'iamasonofgd', })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.have.property('error');
+          res.body.error.should.eql('Email or password incorrect!');
+          done();
+        });
+    });
+  });
+  describe('POST /auth/validate/token', () => {
+    it('should check whether a token is valid', (done) => {
+      try {
+        chai.request(app).post('/api/v1/auth/validate/token')
+          .send({ token: corectToken })
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.have.property('message');
+            res.body.message.should.be.a('string')
+              .eql('Token validation successful.');
+            done();
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    it('should return 400 error if token is invalid', (done) => {
+      chai.request(app).post('/api/v1/auth/validate/token')
+        .send({ token: noPropToken })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.have.property('status');
+          res.body.status.should.eql('Error');
+          res.body.should.have.property('error');
+          res.body.error.should.eql('Access denied. Invalid user token.');
+
+
+          done();
+        });
     });
   });
 });

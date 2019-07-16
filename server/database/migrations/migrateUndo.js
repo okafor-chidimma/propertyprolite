@@ -2,8 +2,6 @@
 
 import pool from '../db';
 
-// const consol.log = debug('Resetting Migrations');
-
 (async function migrateReset() {
   const client = await pool.connect();
   try {

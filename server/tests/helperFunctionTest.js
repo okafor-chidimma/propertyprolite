@@ -2,14 +2,14 @@
 import assert from 'assert';
 
 import Auth from '../helpers/Auth';
-import Passcode from '../helpers/Passcode';
+import PasswordAuth from '../helpers/Passcode';
 
 const { createToken, verifyToken } = Auth;
-const { encryptPassword, verifyPassword } = Passcode;
+const { encryptPassword, verifyPassword } = PasswordAuth;
+
 
 describe('Auth', () => {
   let token;
-  let res;
   const payload = { id: 1, type: 'client' };
   describe('createToken()', () => {
     it('should create a token', () => {
@@ -20,7 +20,7 @@ describe('Auth', () => {
 
   describe('verifyToken()', () => {
     it('should verify a token', () => {
-      const result = verifyToken(res, token);
+      const result = verifyToken(token);
       const resultProps = Object.keys(result);
       const resultValues = Object.values(result);
       const payloadProps = Object.keys(payload);
@@ -37,20 +37,31 @@ describe('Auth', () => {
   });
 });
 
-describe('Passcode', async () => {
-  const password = 'unecryptedpassword';
-  const hashedPassword = await encryptPassword(password);
+
+describe('PasswordAuth', () => {
   describe('encryptPassword()', () => {
     it('should create a hash', async () => {
-      const hashRegex = /^\$2[ayb]\$.{56}$/;
-      assert.equal(true, hashRegex.test(hashedPassword));
-      assert.equal(60, hashedPassword.length);
+      try {
+        const password = 'unecryptedpassword';
+        const hashedPassword = await encryptPassword(password);
+        const hashRegex = /^\$2[ayb]\$.{56}$/;
+        assert.equal(true, hashRegex.test(hashedPassword));
+        assert.equal(60, hashedPassword.length);
+      } catch (error) {
+        console.log(error);
+      }
     });
   });
   describe('verifyPassword()', () => {
     it('should verify password', async () => {
-      const isVerified = await verifyPassword(password, hashedPassword);
-      assert.equal(true, isVerified);
+      try {
+        const password = 'notSecurePassword';
+        const hashedPassword = await encryptPassword(password);
+        const isVerified = await verifyPassword(password, hashedPassword);
+        assert.equal(true, isVerified);
+      } catch (error) {
+        console.log(error);
+      }
     });
   });
 });
