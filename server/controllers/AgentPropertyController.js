@@ -4,29 +4,38 @@ import cloudinary from 'cloudinary';
 import pool from '../database/db';
 import agentPropQueries from '../database/queries/agentProp';
 import Response from '../helpers/Response';
-import properties from '../models/propertyModel';
-
-import auth from '../helpers/Auth';
 // eslint-disable-next-line no-unused-vars
 import cloudDet from '../config/cloudinary';
 
 const {
-  insertPropertyQuery, getpublicId, updateAllProperty,
-  getPropertyQuery, updatePropertyStat
+  insertPropertyQuery, updateAllProperty,
+  updatePropertyStat, getpublicId,
+  deleteProperty, getPropertyQuery
 } = agentPropQueries;
 
 const { successResponse, errorResponse } = Response;
 
-const { verifyToken } = auth;
-
-const allProperties = properties;
 let result_cloud;
 let result_cloud_url;
 let fileReq;
 let publicId;
 
+/**
+ * Defines methods for users
+ *
+ * @class AgentPropertyController
+ */
 
 class AgentPropertyController {
+  /**
+   *
+   * Creates an advert
+   * @static
+   * @param {object} req - request
+   * @param {object} res - response
+   * @returns
+   * @memberof AgentPropertyController
+   */
   static async createProperty(req, res) {
     const { user_id } = req.headers['x-auth-token'];
     if (req.file !== undefined) {
@@ -66,6 +75,16 @@ class AgentPropertyController {
       await client.release();
     }
   }
+
+  /**
+   *
+   * Update an advert
+   * @static
+   * @param {object} req - request
+   * @param {object} res - response
+   * @returns
+   * @memberof AgentPropertyController
+   */
 
   static async UpdateProperty(req, res) {
     const { user_id } = req.headers['x-auth-token'];
@@ -114,6 +133,15 @@ class AgentPropertyController {
     }
   }
 
+  /**
+   *
+   * Marks an advert as sold
+   * @static
+   * @param {object} req - request
+   * @param {object} res - response
+   * @returns
+   * @memberof AgentPropertyController
+   */
 
   static async MarkSoldProperty(req, res) {
     const { user_id } = req.headers['x-auth-token'];
@@ -137,80 +165,35 @@ class AgentPropertyController {
     }
   }
 
+  /**
+   *
+   * Deletes an advert
+   * @static
+   * @param {object} req - request
+   * @param {object} res - response
+   * @returns
+   * @memberof AgentPropertyController
+   */
   static async DeleteProperty(req, res) {
-    const token = req.headers['x-auth-token'];
-    const verifyTokenAnswer = verifyToken(res, token);
-    const userId = verifyTokenAnswer.id;
-    const id = parseInt(req.params.id, 10);
-    const found = allProperties.some((property) => {
-      return (property.id === id && property.owner === userId);
-    });
-    if (!found) {
-      return res.status(404).json({
-        status: 'error',
-        error: 'No such property exists',
-      });
+    const { user_id } = req.headers['x-auth-token'];
+    const property_id = parseInt(req.params.id, 10);
+    let values = [property_id, user_id];
+    const client = await pool.connect();
+    try {
+      const { rows } = await client.query(getpublicId, values);
+      if (!rows[0]) {
+        return res.status(404).json(errorResponse(`This Property Advert can not found!`));
+      }
+      await cloudinary.v2.uploader.destroy(rows[0].public_id);
+      values = [property_id, user_id];
+      await client.query(deleteProperty, values);
+      const deleteProp = { message: 'Advert Deleted Successfully' };
+      return res.status(200).json(successResponse(`success`, deleteProp));
+    } catch (error) {
+      return res.status(500).json(errorResponse(`Internal Server Error`));
+    } finally {
+      await client.release();
     }
-    const deletedProp = allProperties.find((property) => {
-      return (property.id === id && property.owner === userId);
-    });
-    const index = allProperties.indexOf(deletedProp);
-    allProperties.splice(index, 1);
-    const deleteSuccess = {
-      message: 'Property successfully deleted!',
-    };
-    return res.status(200).json({
-      status: 'success',
-      data: deleteSuccess,
-    });
-  }
-
-  static async GetMyProperties(req, res) {
-    const token = req.headers['x-auth-token'];
-    const verifyTokenAnswer = verifyToken(res, token);
-    const userId = verifyTokenAnswer.id;
-    // get all properties
-    // remove the owner property id from the object
-    // use the owner id to grab the phone no and address of the owners
-    const found = allProperties.some((property) => {
-      return (property.owner === userId);
-    });
-    if (!found) {
-      return res.status(404).json({
-        status: 'error',
-        error: 'You do not have any property advert yet',
-      });
-    }
-    const myProperties = allProperties.filter((property) => {
-      return property.owner === userId;
-    });
-    return res.status(200).json({
-      status: 'success',
-      data: myProperties,
-    });
-  }
-
-  static async GetMyproperty(req, res) {
-    const token = req.headers['x-auth-token'];
-    const verifyTokenAnswer = verifyToken(res, token);
-    const userId = verifyTokenAnswer.id;
-    const id = parseInt(req.params.id, 10);
-    const found = allProperties.some((property) => {
-      return (property.id === id && property.owner === userId);
-    });
-    if (!found) {
-      return res.status(404).json({
-        status: 'error',
-        error: 'No such property exists',
-      });
-    }
-    const singleProperty = allProperties.find((property) => {
-      return (property.id === id && property.owner === userId);
-    });
-    return res.status(200).json({
-      status: 'success',
-      data: singleProperty,
-    });
   }
 }
 
