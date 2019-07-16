@@ -1,12 +1,18 @@
 /* eslint-disable camelcase */
+import pool from '../database/db';
+import userPropQueries from '../database/queries/userProp';
+import Response from '../helpers/Response';
+
 import properties from '../models/propertyModel';
 import users from '../models/userModel';
 import flaggedProps from '../models/flaggedProperties';
 import auth from '../helpers/Auth';
 
+
 const { verifyToken } = auth;
+const { getSamePropAdvQuery, getAllPropAdvQuery } = userPropQueries;
 
-
+const { successResponse, errorResponse } = Response;
 const allProperties = properties;
 const allUsers = users;
 const allflaggedProperties = flaggedProps;
@@ -14,51 +20,29 @@ const flaggedPropsCount = allflaggedProperties.length;
 
 class PropertyController {
   static async GetAllProperties(req, res) {
+    let rowProp;
     const { query } = req;
-    const Prop = [];
-    if (Object.keys(query).length !== 0) {
-      const rooms = parseInt(query.rooms, 10);
-      const found = allProperties.some((property) => {
-        return (property.no_of_rooms === rooms && property.type === query.type);
-      });
-      if (!found) {
-        return res.status(404).json({
-          status: 'error',
-          error: 'No such property exists',
-        });
+    const client = await pool.connect();
+    try {
+      if (Object.keys(query).length !== 0) {
+        const { type } = query;
+        const values = [type];
+        const { rows } = await client.query(getSamePropAdvQuery, values);
+        rowProp = rows;
+      } else {
+        const value = ['sold'];
+        const { rows } = await client.query(getAllPropAdvQuery, value);
+        rowProp = rows;
       }
-      const sameTypeProp = allProperties.filter((property) => {
-        return (property.no_of_rooms === rooms && property.type === query.type);
-      });
-      sameTypeProp.forEach((prop) => {
-        const userD = allUsers.find((userDet) => {
-          return userDet.id === prop.owner;
-        });
-        const singleProp = { ...prop };
-        singleProp.ownerEmail = userD.email;
-        singleProp.ownerPhoneNumber = userD.phoneNumber;
-        delete singleProp.owner;
-        Prop.push(singleProp);
-      });
-      return res.status(200).json({
-        status: 'success',
-        data: Prop,
-      });
+      if (!rowProp[0]) {
+        return res.status(404).json(errorResponse(`Advert can not be found!`));
+      }
+      return res.status(200).json(successResponse(`Adverts Found`, rowProp));
+    } catch (error) {
+      return res.status(500).json(errorResponse(`Internal server error!`));
+    } finally {
+      await client.release();
     }
-    allProperties.forEach((prop) => {
-      const userD = allUsers.find((userDet) => {
-        return userDet.id === prop.owner;
-      });
-      const singleProp = { ...prop };
-      singleProp.ownerEmail = userD.email;
-      singleProp.ownerPhoneNumber = userD.phoneNumber;
-      delete singleProp.owner;
-      Prop.push(singleProp);
-    });
-    return res.status(200).json({
-      status: 'success',
-      data: Prop,
-    });
   }
 
   static async GetProperty(req, res) {
