@@ -1,8 +1,4 @@
-[![Build Status](https://travis-ci.com/okafor-chidimma/propertyprolite.svg?branch=develop)](https://travis-ci.com/okafor-chidimma/propertyprolite)
-
-[![Coverage Status](https://coveralls.io/repos/github/okafor-chidimma/propertyprolite/badge.svg?branch=ch-develop-166816890)](https://coveralls.io/github/okafor-chidimma/propertyprolite?branch=ch-develop-166816890)
-
-[![Maintainability](https://api.codeclimate.com/v1/badges/9f5cc7fa1ed5a3feb90a/maintainability)](https://codeclimate.com/github/okafor-chidimma/propertyprolite/maintainability)
+[![Build Status](https://travis-ci.com/okafor-chidimma/propertyprolite.svg?branch=develop)](https://travis-ci.com/okafor-chidimma/propertyprolite) [![Coverage Status](https://coveralls.io/repos/github/okafor-chidimma/propertyprolite/badge.svg?branch=ch-develop-166816890)](https://coveralls.io/github/okafor-chidimma/propertyprolite?branch=ch-develop-166816890) [![Maintainability](https://api.codeclimate.com/v1/badges/9f5cc7fa1ed5a3feb90a/maintainability)](https://codeclimate.com/github/okafor-chidimma/propertyprolite/maintainability)
 
 
 # propertyprolite
@@ -70,7 +66,7 @@ The following core packages where used in building this application
 * [Chai](https://www.chaijs.com/) - Assertion library used for tests
 * [Eslint](https://eslint.org/) - Javascript linting utility
 * [Multer](https://www.npmjs.com/package/multer) - Used for file upload
-*[Cloudinary](https://cloudinary.com/) - Used to store the files when uploaded
+* [Cloudinary](https://cloudinary.com/) - Used to store the files when uploaded
 
 
 # Features Available
