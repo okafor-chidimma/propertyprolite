@@ -4,7 +4,7 @@ import userPropQueries from '../database/queries/userProp';
 import Response from '../helpers/Response';
 
 const {
-  getSamePropAdvQuery, getAllPropAdvQuery, getPropertyQuery, getPropFraudQuery, updatePropertyQuery, insertProp
+  getSamePropAdvQuery, getAllPropAdvQuery, getPropertyQueryUser, getPropFraudQuery, updatePropertyQuery, insertProp
 } = userPropQueries;
 
 const { successResponse, errorResponse } = Response;
@@ -64,7 +64,7 @@ class PropertyController {
     try {
       const { id: property_id } = req.params;
       const value = [property_id, 'sold'];
-      const { rows } = await client.query(getPropertyQuery, value);
+      const { rows } = await client.query(getPropertyQueryUser, value);
       if (!rows[0]) {
         return res.status(404).json(errorResponse(`Advert can not be found!`));
       }

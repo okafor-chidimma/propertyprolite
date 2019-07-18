@@ -10,13 +10,11 @@ class Authenticator {
     let msg;
     try {
       const requestToken = req.headers['x-auth-token'];
-      console.log(requestToken, 'inside try request from test');
       if (!requestToken) {
         msg = `Access denied.Unauthorized request. Please Log In`;
         return res.status(401).json(errorResponse(msg));
       }
       const verifiedToken = await verifyToken(requestToken);
-      console.log(verifiedToken, 'verify');
       if (!verifiedToken) {
         msg = `Access denied.Unauthorized request. Please Log In`;
         return res.status(401).json(errorResponse(msg));
@@ -24,7 +22,6 @@ class Authenticator {
       req.headers['x-auth-token'] = verifiedToken;
       return next();
     } catch (error) {
-      console.log(error, 'error');
       msg = `Access denied.Unauthorized request. Please Log In`;
       return res.status(401).json(errorResponse(msg));
     }

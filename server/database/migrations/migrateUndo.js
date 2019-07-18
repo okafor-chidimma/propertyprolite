@@ -1,11 +1,8 @@
-// import debug from 'debug';
-
 import pool from '../db';
 
 (async function migrateReset() {
   const client = await pool.connect();
   try {
-    console.log('rolling back migrations...');
     await client.query('DROP TABLE IF EXISTS properties CASCADE');
     await client.query('DROP TABLE IF EXISTS flaggedproperties  CASCADE');
     await client.query('DROP TABLE IF EXISTS users CASCADE');
@@ -13,6 +10,5 @@ import pool from '../db';
     console.log(error);
   } finally {
     await client.release();
-    console.log('migration rollback is complete');
   }
 }());

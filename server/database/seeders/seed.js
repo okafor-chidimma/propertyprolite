@@ -10,15 +10,11 @@ let agentPassword2;
   const { encryptPassword } = Passcode;
   try {
     userPassword = await encryptPassword('userpassword');
-    console.log(userPassword, 'userpassword');
     agentPassword1 = await encryptPassword('agentpassword1');
-    console.log(agentPassword1, 'userpassword');
     agentPassword2 = await encryptPassword('agentpassword2');
-    console.log(agentPassword2, 'userpassword');
     adminPassword = await encryptPassword('adminpassword');
-    console.log(adminPassword, 'userpassword');
   } catch (error) {
-    console.log(error, 'password');
+    console.log(error);
   }
   const user = `INSERT INTO users(first_name, last_name, 
                   email, password, address, type, is_admin, phone_number)
@@ -99,23 +95,20 @@ let agentPassword2;
 
   const client = await pool.connect();
   try {
-    console.log('inserting into users');
     await client.query(user);
     await client.query(agent1);
     await client.query(agent2);
     await client.query(admin);
-    console.log('inserting into properties');
     await client.query(property1);
     await client.query(property2);
     await client.query(property3);
     await client.query(property4);
-    console.log('inserting into flaggedproperties');
     await client.query(flaggedProperty1);
     await client.query(flaggedProperty2);
     await client.query(flaggedProperty3);
     await client.query(flaggedProperty4);
   } catch (error) {
-    console.log(error, 'connect error');
+    console.log(error);
   } finally {
     await client.release();
   }

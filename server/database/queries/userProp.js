@@ -10,7 +10,7 @@ const getAllPropAdvQuery = `SELECT a.id, a.status, a.price, a.country,
           b.email as owner_email, b.phone_number as owner_phone_number 
           FROM properties as a, users as b WHERE a.owner = b.id 
           AND a.status <> $1`;
-const getPropertyQuery = `SELECT a.id, a.status, a.price, a.country, 
+const getPropertyQueryUser = `SELECT a.id, a.status, a.price, a.country, 
           a.state, a.city, a.address, a.no_of_rooms, a.type,
           a.fraud, a.adv_desc, a.adv_purpose, a.duration, a.image_url, a.created_on,
           b.email as owner_email, b.phone_number as owner_phone_number 
@@ -23,7 +23,7 @@ const insertProp = `INSERT INTO flaggedProperties (property_id, reason,
 export default {
   getSamePropAdvQuery,
   getAllPropAdvQuery,
-  getPropertyQuery,
+  getPropertyQueryUser,
   getPropFraudQuery,
   updatePropertyQuery,
   insertProp,

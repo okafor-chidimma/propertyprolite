@@ -4,7 +4,7 @@
   "description": "Secure and Efficient online application for all things property. Rent, buy or sale inclusive",
   "main": "index.js",
   "scripts": {
-    "prep-test": "SET NODE_ENV=test && npm run migrate:undo && npm run migrate && npm run migrate:test",
+    "prep-test": "npm run migrate:undo && npm run migrate && npm run migrate:test",
     "test": "mocha --require @babel/register ./server/tests/*.js --timeout 30000 --exit",
     "start": "babel-node ./server/index.js",
     "dev-start": "nodemon --exec babel-node ./server/index.js",
@@ -18,7 +18,8 @@
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
     "codeclimate-coverage": "codeclimate-test-reporter < lcov.info",
-    "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage && npm run codeclimate-coverage"
+    "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage && npm run codeclimate-coverage",
+    "heroku-postbuild": "npm run migrate:undo && npm run migrate && npm run seed"
   },
   "repository": {
     "type": "git",

@@ -31,8 +31,6 @@ describe('Auth Endpoints', () => {
         res.body.data.last_name.should.be.a('string');
         res.body.data.should.have.property('email');
         res.body.data.email.should.be.a('string');
-        res.body.data.should.have.property('user_password');
-        res.body.data.user_password.should.be.a('string');
         res.body.data.should.have.property('phone_number');
         res.body.data.phone_number.should.be.a('string');
         res.body.data.should.have.property('address');
@@ -61,8 +59,6 @@ describe('Auth Endpoints', () => {
         res.body.data.last_name.should.be.a('string');
         res.body.data.should.have.property('email');
         res.body.data.email.should.be.a('string');
-        res.body.data.should.have.property('user_password');
-        res.body.data.user_password.should.be.a('string');
         res.body.data.should.have.property('phone_number');
         res.body.data.phone_number.should.be.a('string');
         res.body.data.should.have.property('address');
