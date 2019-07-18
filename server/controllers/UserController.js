@@ -51,13 +51,11 @@ class UserController {
       if (rows[0]) {
         const { id: user_id, type: user_type } = rows[0];
         const token = createToken({ user_id, user_type });
-        const signupDet = rows[0];
-        const signupDetails = { ...signupDet, user_password };
+        const signupDetails = rows[0];
         const newSignup = { token, ...signupDetails };
         return res.status(201).json(successResponse(`Account successfully created.`, newSignup));
       }
     } catch (error) {
-      console.log(error, 'createuser');
       return res.status(500).json(errorResponse(`Internal server error, could not create account at this time!`));
     } finally {
       await client.release();

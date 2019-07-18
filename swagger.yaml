@@ -73,7 +73,7 @@ paths:
          required: true
          type: string
          description: ''
-       - name: phoneNumber
+       - name: phone_number
          in: formData
          required: true
          type: string

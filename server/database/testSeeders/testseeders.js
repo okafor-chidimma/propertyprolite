@@ -8,7 +8,7 @@ let agentPassword1;
   try {
     agentPassword1 = await encryptPassword('userpassword');
   } catch (error) {
-    console.log(error, 'password');
+    console.log(error);
   }
 
   const agent1 = `INSERT INTO users(first_name, last_name, email, 
@@ -32,14 +32,8 @@ let agentPassword1;
 
   const client = await pool.connect();
   try {
-    console.log('inserting into users');
-
     await client.query(agent1);
-
-    console.log('inserting into properties');
     await client.query(property1);
-
-    console.log('inserting into flaggedproperties');
     await client.query(flaggedProperty1);
   } catch (error) {
     console.log(error, 'connect error');

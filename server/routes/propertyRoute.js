@@ -6,8 +6,10 @@ import Imagevalidator from '../middlewares/imageValidator';
 import propertyValidator from '../middlewares/propertyValidator';
 import Authenticator from '../middlewares/Authenticator';
 import uploader from '../config/multer';
+import Uploadfile from '../helpers/UploadFIle';
 
 const router = express.Router();
+const { imageUpload } = Uploadfile;
 const { upload } = uploader;
 const uploaded = upload.single('image_url');
 const { isLoggedIn, isAgent } = Authenticator;
@@ -35,11 +37,11 @@ const {
 // for agents
 router.post('/', isLoggedIn, isAgent, uploaded,
   Imagevalidator, propertyFieldsValidator, statusValidator,
-  validate, createProperty);
+  validate, imageUpload, createProperty);
 router.patch('/:id', isLoggedIn, isAgent,
   propertyIdParamValidator, uploaded, Imagevalidator,
   propertyFieldsValidator, statusValidator,
-  validate, UpdateProperty);
+  validate, imageUpload, UpdateProperty);
 router.patch('/:id/sold', isLoggedIn, isAgent,
   propertyIdParamValidator, statusValidator, validate, MarkSoldProperty);
 router.delete('/:id', isLoggedIn, isAgent,
