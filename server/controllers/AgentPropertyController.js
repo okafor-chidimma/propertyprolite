@@ -40,13 +40,12 @@ class AgentPropertyController {
       status: status_input_create, price: price_input_create, country: country_input_create,
       state: state_input_create, city: city_input_create, address: address_input_create,
       no_of_rooms: room_input_create, type: type_input_create, adv_desc: description_input_create,
-      adv_purpose: purpose_input_create, duration: duration_input_create, result_cloud_url, public_id
+      adv_purpose: purpose_input_create, duration: duration_input_create, result_cloud_url: result_cloud_url_create, public_id: public_id_create
     } = req.body;
     const fraud = req.body.fraud || false;
     const insertPropValues = [user_id, status_input_create, price_input_create,
       country_input_create, state_input_create, city_input_create, address_input_create,
-      room_input_create, fraud, type_input_create, description_input_create,
-      purpose_input_create, duration_input_create, result_cloud_url, public_id];
+      room_input_create, fraud, type_input_create, description_input_create, purpose_input_create, duration_input_create, result_cloud_url_create, public_id_create];
     const client = await pool.connect();
     try {
       const { rows } = await client.query(insertPropertyQuery, insertPropValues);
@@ -74,10 +73,10 @@ class AgentPropertyController {
     const property_id = parseInt(req.params.id, 10);
     let values = [property_id, user_id];
     const {
-      status: status_input, price: price_input, country: country_input,
-      state: state_input, city: city_input, address: address_input,
-      no_of_rooms: room_input, type: type_input, adv_desc: description_input,
-      adv_purpose: purpose_input, duration: duration_input, result_cloud_url, public_id
+      status: status_input_update, price: price_input_update, country: country_input_update,
+      state: state_input_update, city: city_input_update, address: address_input_update,
+      no_of_rooms: room_input_update, type: type_input_update, adv_desc: description_input_update,
+      adv_purpose: purpose_input_update, duration: duration_input_update, result_cloud_url: result_cloud_url_update, public_id: public_id_update
     } = req.body;
     const client = await pool.connect();
     try {
@@ -86,11 +85,11 @@ class AgentPropertyController {
         return res.status(404).json(errorResponse(`Advert can not be found!`));
       }
       await cloudinary.v2.uploader.destroy(selectRow[0].public_id);
-      const fraud = req.body.fraud || false;
-      values = [status_input, price_input,
-        country_input, state_input, city_input, address_input,
-        room_input, fraud, type_input, description_input,
-        purpose_input, duration_input, result_cloud_url, public_id, property_id, user_id];
+      const fraud_update = req.body.fraud || false;
+      values = [status_input_update, price_input_update,
+        country_input_update, state_input_update, city_input_update, address_input_update,
+        room_input_update, fraud_update, type_input_update, description_input_update,
+        purpose_input_update, duration_input_update, result_cloud_url_update, public_id_update, property_id, user_id];
       const { rows: rowUpdated } = await client.query(updateAllProperty, values);
       const updateProp = rowUpdated[0];
       return res.status(200).json(successResponse(`Advert Updated Successfully`, updateProp));
