@@ -1,0 +1,39 @@
+{
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "env": {
+    "API_KEY": {
+      "required": true
+    },
+    "API_SECRET": {
+      "required": true
+    },
+    "CLOUD_NAME": {
+      "required": true
+    },
+    "DB_DEV": {
+      "required": true
+    },
+    "DB_TEST": {
+      "required": true
+    },
+    "SECRET_KEY": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "name": "propertyprolite",
+  "scripts": {
+  },
+  "stack": "heroku-18"
+}
