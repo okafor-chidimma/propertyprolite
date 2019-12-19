@@ -259,7 +259,7 @@ div.box h3{
 }
 /*section for house and advert  */
 .three-grid-column{
-    grid-template-columns: repeat(auto-fill,minmax(350px,1fr));
+    grid-template-columns: repeat(auto-fill,minmax(400px,1fr));
 }
 .two-grid-column{
     grid-template-columns: repeat(auto-fill,minmax(500px,1fr));
