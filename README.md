@@ -1,4 +1,4 @@
-[Coverage Status](https://coveralls.io/repos/github/okafor-chidimma/propertyprolite/badge.svg?branch=develop)](https://coveralls.io/github/okafor-chidimma/propertyprolite?branch=develop) [![Maintainability](https://api.codeclimate.com/v1/badges/9f5cc7fa1ed5a3feb90a/maintainability)](https://codeclimate.com/github/okafor-chidimma/propertyprolite/maintainability)
+[![Coverage Status](https://coveralls.io/repos/github/okafor-chidimma/propertyprolite/badge.svg?branch=develop)](https://coveralls.io/github/okafor-chidimma/propertyprolite?branch=develop) [![Maintainability](https://api.codeclimate.com/v1/badges/9f5cc7fa1ed5a3feb90a/maintainability)](https://codeclimate.com/github/okafor-chidimma/propertyprolite/maintainability)
 
 
 # propertyprolite
